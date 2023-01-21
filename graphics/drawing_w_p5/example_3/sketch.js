@@ -20,14 +20,14 @@ function draw() {
   push();
   fill('#ffffff');
   noStroke();
-  circle(130, 45, 24);
-  circle(170, 45, 24);
+  circle(130, 50, 24);
+  circle(170, 50, 24);
   pop();
 
   push();
   fill('#0044F7');
   noStroke();
-  circle(130, 45, 14);
-  circle(170, 45, 14);
+  circle(130, 50, 14);
+  circle(170, 50, 14);
   pop();
 }
