@@ -130,13 +130,21 @@ function mouseDragged() {
   //   renderBrushSize();
   // }
   // else {
-  if (!isEraser) {
-    console.log("drawing w/", brushColor, "at size", brushStrokeArray[brushStrokeIndex]);
-    paintBrush(brushColor);
-  }
-  else {
-    console.log("erasing");
-    paintBrush(canvasColor);
+  let isInsidePallete = (
+    mouseX >= initialX &&
+      mouseX <= initialX + initialSize &&
+      mouseY >= initialY  &&
+      mouseY <= initialY + initialSize * palleteArray.length
+  );
+  if (!isInsidePallete) {
+    if (!isEraser) {
+      console.log("drawing w/", brushColor, "at size", brushStrokeArray[brushStrokeIndex]);
+      paintBrush(brushColor);
+    }
+    else {
+      console.log("erasing");
+      paintBrush(canvasColor);
+    }
   }
   // }
 }
