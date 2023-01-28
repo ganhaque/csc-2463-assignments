@@ -7,7 +7,7 @@
 ## 📝 To-do
 - [ ] graphics
   - [X] drawing w/ p5
-  - [ ] paint app
+  - [X] paint app
   - [ ] sprite animation
   - [ ] bug squish
 - [ ] sounds
