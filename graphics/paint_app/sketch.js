@@ -49,8 +49,9 @@ var brushStrokeArray = [
   700,
   800,
   900,
-  1000
-]
+  1000,
+  2000
+];
 var brushStrokeIndex = 11;
 // var brushStroke = brushStrokeArray[brushStrokeIndex];
 var renderBrushSizeIsTRUE = false;
@@ -76,24 +77,21 @@ function initialize_color_pallete(item, index, arr) {
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
   background(canvasColor);
-
   colorPallete.forEach(initialize_color_pallete)
-
 }
 
 function draw() {
   for(let i = 0; i < palleteArray.length; i++) {
     palleteArray[i].draw();
   }
-
   // if (renderBrushSizeIsTRUE) {
   //   renderBrushSize();
   // }
   if (displayStatusBar) {
     renderStatusBar();
   }
-
 }
+
 ///////////////////////////////////////////////////////////////
 function mousePressed() {
   console.log("pressed");
@@ -112,6 +110,9 @@ function mousePressed() {
         console.log("color:", brushColor);
       }
     }
+  }
+  else if (isEraser){
+    clickPaintBrush(canvasColor);
   }
   else {
     clickPaintBrush(brushColor);
@@ -134,6 +135,33 @@ function mouseDragged() {
     paintBrush(canvasColor);
   }
   // }
+}
+
+///////////////////////////////////////////////////////////////
+class PalleteSquare {
+  constructor(x, y, size, color) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.color = color;
+  }
+  draw() {
+    fill(this.color);
+    square(this.x, this.y, this.size);
+  }
+  getColor() {
+    if (this.isInside()) {
+      return this.color;
+    }
+  }
+  isInside() {
+    let isInsideX = (mouseX >= this.x && mouseX <= this.x + this.size);
+    let isInsideY = (mouseY >= this.y && mouseY <= this.y + this.size);
+
+    // console.log("x:", isInsideX);
+    // console.log("y:", isInsideY);
+    return (isInsideX && isInsideY);
+  }
 }
 
 ///////////////////////////////////////////////////////////////
@@ -160,13 +188,12 @@ function keyTyped() {
     //     renderBrushSizeIsTRUE = true;
     //   }
     //   break;
-
     case 'q':
       console.log("q is pressed")
       //decrease brush size
       if(brushStrokeIndex >= 1) {
         brushStrokeIndex -= 1;
-        console.log("size:", brushStrokeArray[brushStrokeIndex]);
+        console.log("brush size:", brushStrokeArray[brushStrokeIndex]);
       }
       else {
         console.log("cannot decrease brush stroke further")
@@ -177,7 +204,7 @@ function keyTyped() {
       //decrease brush size
       if(brushStrokeIndex < brushStrokeArray.length -1) {
         brushStrokeIndex += 1;
-        console.log("size:", brushStrokeArray[brushStrokeIndex]);
+        console.log("brush size:", brushStrokeArray[brushStrokeIndex]);
       }
       else {
         console.log("cannot increase brush stroke further")
@@ -198,36 +225,6 @@ function keyTyped() {
       break;
     default:
     console.log("not a shortcut");
-  }
-}
-
-///////////////////////////////////////////////////////////////
-class PalleteSquare {
-  constructor(x, y, size, color) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-    this.color = color;
-  }
-
-  draw() {
-    fill(this.color);
-    square(this.x, this.y, this.size);
-  }
-
-  getColor() {
-    if (this.isInside()) {
-      return this.color;
-    }
-  }
-
-  isInside() {
-    let isInsideX = (mouseX >= this.x && mouseX <= this.x + this.size);
-    let isInsideY = (mouseY >= this.y && mouseY <= this.y + this.size);
-
-    // console.log("x:", isInsideX);
-    // console.log("y:", isInsideY);
-    return (isInsideX && isInsideY);
   }
 }
 
