@@ -1,4 +1,5 @@
 var canvasColor = "#F0F0F0";
+// var canvasColor = "#23262a"; //night mode :D
 var colorPallete = [
   "#EA412C",
   "#EF8734",
@@ -63,6 +64,9 @@ var initialSize = 45;
 //Canvas properties:
 var canvasWidth = 1200;
 var canvasHeight = 900;
+//StatusBar properties:
+var statusBarHeight = 24;
+var diffStatusBarHeight = canvasHeight - statusBarHeight;
 
 function initialize_color_pallete(item, index, arr) {
   // console.log("index:",index);
@@ -251,11 +255,8 @@ function clickPaintBrush(color) {
 //   pop();
 // }
 
-//TODO: make status bar a class
 function renderStatusBar() {
   push();
-  let statusBarHeight = 24;
-  let diffStatusBarHeight = canvasHeight - statusBarHeight;
   // let eraserModeColor = "#E95678";
   let eraserModeColor = "#7aa2f7";
   let brushModeColor = "#BAE881";
@@ -285,12 +286,26 @@ function renderStatusBar() {
     modeString = "BRUSH";
   }
   text(modeString, 9, diffStatusBarHeight + 18)
+  //stroke size module
+  let strokeSizeModuleSize = 60;
+  fill("#23262a");
+  triangle(modeModuleSize + 20, canvasHeight, modeModuleSize, canvasHeight, 20 + modeModuleSize, diffStatusBarHeight)
+  rect(modeModuleSize + 20, diffStatusBarHeight, strokeSizeModuleSize, statusBarHeight);
+  triangle(modeModuleSize + strokeSizeModuleSize + 20, diffStatusBarHeight, modeModuleSize + strokeSizeModuleSize + 20, canvasHeight, 40 + modeModuleSize + strokeSizeModuleSize, diffStatusBarHeight)
+  let strokeSizeString = brushStrokeArray[brushStrokeIndex].toString();
+  fill("#ffffff");
+  text(strokeSizeString, 102, diffStatusBarHeight + 18)
+  //color module
+  let colorModuleSize = 60;
+  fill(brushColor);
+  triangle(strokeSizeModuleSize + modeModuleSize + 20, canvasHeight, strokeSizeModuleSize + modeModuleSize, canvasHeight, 20 + strokeSizeModuleSize + modeModuleSize, diffStatusBarHeight)
+  rect(strokeSizeModuleSize + modeModuleSize + 20, diffStatusBarHeight, colorModuleSize, statusBarHeight);
+  triangle(modeModuleSize + strokeSizeModuleSize + colorModuleSize + 20, diffStatusBarHeight, strokeSizeModuleSize + modeModuleSize + colorModuleSize + 20, canvasHeight, 40 + strokeSizeModuleSize + modeModuleSize + colorModuleSize, diffStatusBarHeight)
   pop();
+
 }
 
 function deleteStatusBar() {
-  let statusBarHeight = 24;
-  let diffStatusBarHeight = canvasHeight - statusBarHeight;
   push();
   noStroke()
   fill(canvasColor);
