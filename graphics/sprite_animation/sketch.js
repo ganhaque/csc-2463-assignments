@@ -1,14 +1,15 @@
 //Canvas properties:
-var tileLength = 24;
-var canvasWidthScaling = 24;
-var canvasHeightScaling = 14;
-var canvasColor = "#080808";
+let tileLength = 24;
+let canvasWidthScaling = 24;
+let canvasHeightScaling = 14;
+let canvasColor = "#080808";
 
-var pixels;
-var themeArray;
+let pixels;
+let themeArray;
 
-var characterArray = []
-var colorPallete = [
+let characterArray = []
+let wordArray = []
+let colorPallete = [
   "#080808",
   "#0b0a0f",
   "#242424",
@@ -40,8 +41,10 @@ var colorPallete = [
   "#c29e46",
 ]
 
-var isGridMovement = true;
-var showGrid = true;
+let gridIsFunctional = true;
+let isGridMovement = true; //note: problem on false mode
+let showGrid = true;
+let  gridArray = [];
 
 ///////////////////////////////////////////////////////////////
 function preload() {
@@ -52,14 +55,23 @@ function setup() {
   frameRate(24);
   createCanvas(tileLength*canvasWidthScaling, tileLength*canvasHeightScaling);
 
-  characterArray.push(
-    new Character(
-      spriteSheet, tileLength * canvasWidthScaling / 2, tileLength * canvasHeightScaling / 2,
-      tileLength, tileLength,
-      0, 0,
-      2, 1
-    )
-  )
+  for(let i = 0; i < height / tileLength; i++) {
+    gridArray.push(new Array(width / tileLength).fill(0));
+    // console.log("curren array[i][j] = ", gridArray[i]);
+  }
+
+    // spriteSheet,
+    // initalX, initalY,
+    // spriteWidth, spriteHeight,
+    // animationLength,
+    // amountOfVariation,
+    // characterID,
+    // sizeScaling = 1,
+  gridArray[1][2] = 1;
+  gridArray[10][2] = 2;
+  gridArray[10][8] = 3;
+  gridArray[11][8] = 11;
+  initialRenderOfGridArray();
 }
 
 ///////////////////////////////////////////////////////////////
@@ -68,65 +80,228 @@ function draw() {
   if(showGrid) {
     drawGrid(canvasWidthScaling, canvasHeightScaling, 'rgb(20, 20, 255, 0.75)');
   }
-  for(var i = 0; i < characterArray.length; i++) {
+  for(let i = 0; i < characterArray.length; i++) {
     characterArray[i].draw();
   }
+  for(let i = 0; i < wordArray.length; i++) {
+    wordArray[i].draw();
+  }
+  noSmooth();
+  //sprite searcher //DO NOT DELETE
+  // image(spriteSheet, tileLength*2, tileLength*2, tileLength, tileLength, 18*tileLength, 30*tileLength, tileLength, tileLength);
 }
 
 ///////////////////////////////////////////////////////////////
 function keyPressed() {
-  for(var i = 0; i < characterArray.length; i++) {
+  for(let i = 0; i < characterArray.length; i++) {
     characterArray[i].normalMovementTap(LEFT_ARROW, DOWN_ARROW, UP_ARROW, RIGHT_ARROW);
   }
 }
 
 function keyReleased() {
-  for(var i = 0; i < characterArray.length; i++) {
+  for(let i = 0; i < characterArray.length; i++) {
     characterArray[i].stopMovementOnKeyReleased(LEFT_ARROW, DOWN_ARROW, UP_ARROW, RIGHT_ARROW);
   }
 }
 
+function initialRenderOfGridArray() {
+  for(let i = 0; i < gridArray.length; i++) {
+    // console.log("i is", i);
+    for(let j = 0; j < gridArray[i].length; j++) {
+      // console.log("j is", j);
+      switch(gridArray[i][j]) {
+        case 1:
+          console.log("BABA IS AT [%d][%d]", i, j );
+          characterArray.push(
+            new Character(
+              spriteSheet,
+              tileLength * i, tileLength * j,
+              tileLength, tileLength,
+              5,
+              3,
+              1,
+            )
+          )
+          break;
+        case 2:
+          console.log("KEKE IS AT [%d][%d]", i, j);
+          characterArray.push(
+            new Character(
+              spriteSheet,
+              tileLength * i, tileLength * j,
+              tileLength, tileLength,
+              5,
+              3,
+              2,
+            )
+          )
+          break;
+        case 3:
+          console.log("ME IS AT [%d][%d]", i, j);
+          characterArray.push(
+            new Character(
+              spriteSheet,
+              tileLength * i, tileLength * j,
+              tileLength, tileLength,
+              5,
+              3,
+              3,
+            )
+          )
+          break;
+        case 11:
+          console.log("IS IS AT [%d][%d]", i, j);
+          wordArray.push(
+            new Word(
+              spriteSheet,
+              tileLength * i, tileLength * j,
+              tileLength, tileLength,
+              3,
+              1,
+            )
+          )
+          break;
+        default:
+        //nothing is at [i][j]
+      }
+    }
+  }
+
+}
+
 ///////////////////////////////////////////////////////////////
-class Character {
+class Word {
   constructor(
-    spriteSheet, initalX, initalY,
+    spriteSheet,
+    initalX, initalY,
     spriteWidth, spriteHeight,
-    spriteXCoordinate, spriteYCoordinate,
-    walkingAnimationLength, numberofVariation,
-    // color = "#FFFFFF",
+    // animationLength,
+    amountOfVariation,
+    characterID,
     sizeScaling = 1,
-    hasLeftRight = true,
-    hasDownUp = true,
+    // color = "#FFFFFF",
   ) {
+    this.characterID = characterID;
     this.spriteSheet = spriteSheet;
     this.initalX = initalX;
     this.initalY = initalY;
     this.spriteWidth = spriteWidth;
     this.spriteHeight = spriteHeight;
-    this.spriteXCoordinate = spriteXCoordinate;
-    this.spriteYCoordinate = spriteYCoordinate;
-    this.walkingAnimationLength = walkingAnimationLength;
-    this.numberofVariation = numberofVariation;
+    // this.animationLength = animationLength;
 
+    switch (characterID) {
+      case 1:
+        this.spriteXCoordinate = 18*tileLength;
+        this.spriteYCoordinate = 30*tileLength;
+        break;
+      // case 2:
+      //   this.spriteXCoordinate = 0;
+      //   this.spriteYCoordinate = 3*tileLength;
+      //   break;
+      // case 3:
+      //   this.spriteXCoordinate = 0;
+      //   this.spriteYCoordinate = 6*tileLength;
+      default:
+      console.log("how");
+    }
+    // this.color = color;
+    this.sizeScaling = sizeScaling;
+    this.currentVariation = 0;
+    this.amountOfVariation = amountOfVariation;
+
+    this.locationX = 0;
+    this.locationY = 0;
+
+    if(isGridMovement) {
+      this.movementSpeed = 24;
+    }
+    // else {
+    //   this.movementSpeed = 24;
+    // }
+    this.wobbleSpeed = 1;
+  }
+
+  ///////////////////////////////////////////////////////////////
+  draw() {
+    if(frameCount % (10*this.wobbleSpeed) === 0) {
+      this.wobble();
+    }
+
+    push();
+    noSmooth();
+    image(
+      spriteSheet, this.initalX + this.locationX, this.initalY + this.locationY,
+      tileLength*this.sizeScaling, tileLength*this.sizeScaling,
+      this.spriteXCoordinate,
+      this.spriteYCoordinate + (this.spriteHeight * this.currentVariation),
+      this.spriteWidth, this.spriteHeight
+    )
+    pop();
+  }
+
+  ///////////////////////////////////////////////////////////////
+  wobble() {
+    if(this.currentVariation >= this.amountOfVariation - 1) {
+      this.currentVariation = 0;
+    }
+    else {
+      this.currentVariation += 1;
+    }
+  }
+
+}
+
+///////////////////////////////////////////////////////////////
+class Character {
+  constructor(
+    spriteSheet,
+    initalX, initalY,
+    spriteWidth, spriteHeight,
+    animationLength,
+    amountOfVariation,
+    characterID,
+    sizeScaling = 1,
+    // color = "#FFFFFF",
+  ) {
+    this.characterID = characterID;
+    this.spriteSheet = spriteSheet;
+    this.initalX = initalX;
+    this.initalY = initalY;
+    this.spriteWidth = spriteWidth;
+    this.spriteHeight = spriteHeight;
+    this.animationLength = animationLength;
+
+    switch (characterID) {
+      case 1:
+        this.spriteXCoordinate = 0;
+        this.spriteYCoordinate = 0;
+        break;
+      case 2:
+        this.spriteXCoordinate = 0;
+        this.spriteYCoordinate = 3*tileLength;
+        break;
+      case 3:
+        this.spriteXCoordinate = 0;
+        this.spriteYCoordinate = 6*tileLength;
+        break;
+      default:
+      console.log("how");
+    }
     // this.color = color;
     this.sizeScaling = sizeScaling;
 
     this.velocity = 0;
-    this.acceleration = 0;
 
     this.currentFrame = 1;
     this.currentVariation = 0;
-    
-    this.amountOfVariation = 3;
+
+    this.amountOfVariation = amountOfVariation;
 
     this.locationX = 0;
     this.locationY = 0;
 
     this.xDirection = 1;
     this.yDirection = 0;
-
-    this.hasLeftRight = hasLeftRight;
-    this.hasDownUp = hasDownUp;
 
     if(isGridMovement) {
       this.movementSpeed = 24;
@@ -142,9 +317,11 @@ class Character {
     this.sleepIsForTheWeak = false;
     this.idleCounter = 0;
     this.idleDelay = 2;
+
+    this.isYou = true;
   }
 
-///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
   draw() {
     if(frameCount % (10*this.wobbleSpeed) === 0) {
       this.wobble();
@@ -195,14 +372,9 @@ class Character {
       this.spriteWidth, this.spriteHeight
     )
     pop();
-
-    if(isGridMovement) {
-      this.velocity = 0;
-      this.movementSpeed = tileLength;
-    }
   }
 
-///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
   wobble() {
     if(this.currentVariation >= this.amountOfVariation - 1) {
       this.currentVariation = 0;
@@ -212,38 +384,41 @@ class Character {
     }
   }
 
-///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
   idleBabaIsSleep() {
     if(this.xDirection === 1) {
+      // console.log("right sleep");
       this.currentFrame = 0;
     }
     else if(this.xDirection === -1) {
-      this.currentFrame = 10;
+      this.currentFrame = this.animationLength*2;
     }
     else if(this.yDirection === -1) {
-      this.currentFrame = 5;
+      this.currentFrame = this.animationLength;
     }
     else if(this.yDirection === 1) {
-      this.currentFrame = 15;
+      this.currentFrame = this.animationLength*3;
     }
   }
 
   spriteIsReset() {
+    //MAYBE: add no sleep reset for robot sprite
     if(this.xDirection === 1) {
       this.currentFrame = 1;
     }
     else if(this.xDirection === -1) {
-      this.currentFrame = 11;
+      console.log("left", this.animationLength*2 + 1)
+      this.currentFrame = this.animationLength*2 + 1;
     }
     else if(this.yDirection === -1) {
-      this.currentFrame = 6;
+      this.currentFrame = this.animationLength + 1;
     }
     else if(this.yDirection === 1) {
-      this.currentFrame = 16;
+      this.currentFrame = this.animationLength*3 + 1;
     }
   }
 
-///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
   leftMovement() {
     console.log("move left")
     if(this.yDirection === 0 && this.xDirection === -1) {
@@ -320,7 +495,7 @@ class Character {
     this.updateLocation();
   }
 
-///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
   updateLocation() {
     this.locationX += this.velocity * this.xDirection;
     this.locationY += this.velocity * this.yDirection;
@@ -329,9 +504,10 @@ class Character {
       // this.movementSpeed = 24;
     }
     this.idleCounter = 0;
+    //TODO: Update location in array as well
   }
 
-///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
   normalMovementTap(moveLeftKey = LEFT_ARROW, moveDownKey = DOWN_ARROW, moveUpKey = UP_ARROW, moveRightKey = RIGHT_ARROW) {
     switch(keyCode) {
       case moveLeftKey:
@@ -364,13 +540,10 @@ class Character {
 }
 
 ///////////////////////////////////////////////////////////////
-function drawGrid(column, row, color) {
-  for (var x = 0; x < width; x += width / column) {
-    for (var y = 0; y < height; y += height / row) {
+function drawGrid(column, row) {
+  for (let x = 0; x < width; x += width / column) {
+    for (let y = 0; y < height; y += height / row) {
       push();
-      // fill(color);
-      // console.log(color);
-      // stroke(color);
       stroke(105, 135, 255, 0.90)
       strokeWeight(1);
       line(x, 0, x, height);

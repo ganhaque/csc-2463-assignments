@@ -19,11 +19,14 @@
     - [ ] :sparkles: recolor character
     - [X] :star2: idle animation
     - [ ] :question: make `BABA` `IS` `YOU` block functional
-      - [ ] array to represent the grid for performance optimization :zap:
-      - [ ] character class for `BABA`
-        - [ ] rework movement system?
-      - [ ] verb ~~class?~~ for `IS`
-      - [ ] adjective class for `YOU`
+      - [X] array to represent the grid for performance optimization :zap:
+        - [ ] movement should update the aray
+      - [X] character class for `BABA`
+        - [X] character ID system for easier character creation
+      - [ ] ~~verb class for `IS`~~
+      - [ ] ~~adjective class for `YOU`~~
+      - [x] word class for noun, verb, adj, and simple objects (only wobble sprites)
+        - [ ] make push functional
   - [ ] bug squish
 - [ ] sounds
   - [ ] sampler
