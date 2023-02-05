@@ -11,7 +11,7 @@
     - [X] :sparkles: eraser
     - [X] :sparkles: different brush sizes
     - [X] :sparkles: statusbar to display current tool, size, and color
-  - [ ] sprite animation
+  - [X] sprite animation
     - [X] :sparkles: grid movement system
     - [ ] :sound: sound fx & music
     - [ ] :dizzy: particles
