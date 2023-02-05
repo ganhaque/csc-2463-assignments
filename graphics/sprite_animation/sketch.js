@@ -115,7 +115,7 @@ function initialRenderOfGridArray() {
           characterArray.push(
             new Character(
               spriteSheet,
-              tileLength * i, tileLength * j,
+              tileLength * j, tileLength * i,
               tileLength, tileLength,
               5,
               3,
@@ -128,7 +128,7 @@ function initialRenderOfGridArray() {
           characterArray.push(
             new Character(
               spriteSheet,
-              tileLength * i, tileLength * j,
+              tileLength * j, tileLength * i,
               tileLength, tileLength,
               5,
               3,
@@ -141,7 +141,7 @@ function initialRenderOfGridArray() {
           characterArray.push(
             new Character(
               spriteSheet,
-              tileLength * i, tileLength * j,
+              tileLength * j, tileLength * i,
               tileLength, tileLength,
               5,
               3,
@@ -154,7 +154,7 @@ function initialRenderOfGridArray() {
           wordArray.push(
             new Word(
               spriteSheet,
-              tileLength * i, tileLength * j,
+              tileLength * j, tileLength * i,
               tileLength, tileLength,
               3,
               1,
@@ -249,6 +249,10 @@ class Word {
     }
   }
 
+  ///////////////////////////////////////////////////////////////
+  pushRight() {
+
+  }
 }
 
 ///////////////////////////////////////////////////////////////
@@ -319,6 +323,8 @@ class Character {
     this.idleDelay = 2;
 
     this.isYou = true;
+    this.arrayJ = initalX / tileLength;
+    this.arrayI = initalY / tileLength;
   }
 
   ///////////////////////////////////////////////////////////////
@@ -419,80 +425,25 @@ class Character {
   }
 
   ///////////////////////////////////////////////////////////////
-  leftMovement() {
-    console.log("move left")
-    if(this.yDirection === 0 && this.xDirection === -1) {
-      this.currentFrame += 1;
-      console.log("update frame:", this.currentFrame);
+  checkCollision() {
+    console.log("checking collison");
+
+    if(this.xDirection === 1) {
+      console.log("right collison check");
     }
-    else {
-      this.yDirection = 0;
-      console.log("set yDirection to 0")
-      this.currentFrame = 11;
-      console.log("update frame:", this.currentFrame);
+    else if(this.xDirection === -1) {
+      console.log("left collison check");
     }
-    this.xDirection = -1;
-    this.velocity = this.movementSpeed;
-    if (this.currentFrame === 15) {
-      this.currentFrame = 11;
+    else if(this.yDirection === -1) {
+      console.log("up collison check");
     }
-    this.updateLocation();
-  }
-  rightMovement() {
-    console.log("move right")
-    if(this.yDirection === 0 && this.xDirection === 1) {
-      this.currentFrame += 1;
+    else if(this.yDirection === 1) {
+      console.log("down collison check");
     }
-    else {
-      this.yDirection = 0;
-      console.log("set yDirection to 0")
-      this.currentFrame = 1;
-      console.log("update frame:", this.currentFrame);
+
+    if(gridArray[this.arrayI + 1][this.arrayJ] != 0) {
+
     }
-    this.xDirection = 1;
-    this.velocity = this.movementSpeed;
-    if (this.currentFrame === 5) {
-      this.currentFrame = 1;
-    }
-    this.updateLocation();
-  }
-  downMovement() {
-    console.log("move down")
-    if(this.xDirection === 0 && this.yDirection === 1) {
-      this.currentFrame += 1;
-      console.log("update frame:", this.currentFrame);
-    }
-    else {
-      this.xDirection = 0;
-      console.log("set xDirection to 0")
-      this.currentFrame = 16;
-    }
-    this.yDirection = 1;
-    this.velocity = this.movementSpeed;
-    if (this.currentFrame === 20) {
-      console.log("reset frame to 16");
-      this.currentFrame = 16;
-    }
-    this.updateLocation();
-  }
-  upMovement() {
-    console.log("move up")
-    if(this.xDirection === 0 && this.yDirection === -1) {
-      this.currentFrame += 1;
-      console.log("update frame:", this.currentFrame);
-    }
-    else {
-      this.xDirection = 0;
-      console.log("set xDirection to 0")
-      this.currentFrame = 6;
-    }
-    this.yDirection = -1;
-    this.velocity = this.movementSpeed;
-    if (this.currentFrame === 10) {
-      console.log("reset frame to 6");
-      this.currentFrame = 6;
-    }
-    this.updateLocation();
   }
 
   ///////////////////////////////////////////////////////////////
@@ -504,7 +455,17 @@ class Character {
       // this.movementSpeed = 24;
     }
     this.idleCounter = 0;
-    //TODO: Update location in array as well
+    this.updateArrayLocation();
+  }
+
+  updateArrayLocation() {
+    console.log("call");
+    console.log("current array of %d is [%d][%d]", this.characterID, this.arrayI, this.arrayJ);
+    gridArray[this.arrayI][this.arrayJ] = 0;
+    this.arrayI = (this.initalY+this.locationY) / 24;
+    this.arrayJ = (this.initalX+this.locationX) / 24;
+    gridArray[this.arrayI][this.arrayJ] = this.characterID;
+    console.log("array is updated[%d][%d]", this.arrayI, this.arrayJ);
   }
 
   ///////////////////////////////////////////////////////////////
@@ -537,6 +498,84 @@ class Character {
       }
     }
   }
+
+  ///////////////////////////////////////////////////////////////
+  leftMovement() {
+    // console.log("move left")
+    if(this.yDirection === 0 && this.xDirection === -1) {
+      this.currentFrame += 1;
+      // console.log("update frame:", this.currentFrame);
+    }
+    else {
+      this.yDirection = 0;
+      // console.log("set yDirection to 0")
+      this.currentFrame = 11;
+      // console.log("update frame:", this.currentFrame);
+    }
+    this.xDirection = -1;
+    this.velocity = this.movementSpeed;
+    if (this.currentFrame === 15) {
+      this.currentFrame = 11;
+    }
+    this.updateLocation();
+  }
+  rightMovement() {
+    // console.log("move right")
+    if(this.yDirection === 0 && this.xDirection === 1) {
+      this.currentFrame += 1;
+    }
+    else {
+      this.yDirection = 0;
+      // console.log("set yDirection to 0")
+      this.currentFrame = 1;
+      // console.log("update frame:", this.currentFrame);
+    }
+    this.xDirection = 1;
+    this.velocity = this.movementSpeed;
+    if (this.currentFrame === 5) {
+      this.currentFrame = 1;
+    }
+    this.updateLocation();
+  }
+  downMovement() {
+    // console.log("move down")
+    if(this.xDirection === 0 && this.yDirection === 1) {
+      this.currentFrame += 1;
+      // console.log("update frame:", this.currentFrame);
+    }
+    else {
+      this.xDirection = 0;
+      // console.log("set xDirection to 0")
+      this.currentFrame = 16;
+    }
+    this.yDirection = 1;
+    this.velocity = this.movementSpeed;
+    if (this.currentFrame === 20) {
+      // console.log("reset frame to 16");
+      this.currentFrame = 16;
+    }
+    this.updateLocation();
+  }
+  upMovement() {
+    // console.log("move up")
+    if(this.xDirection === 0 && this.yDirection === -1) {
+      this.currentFrame += 1;
+      // console.log("update frame:", this.currentFrame);
+    }
+    else {
+      this.xDirection = 0;
+      // console.log("set xDirection to 0")
+      this.currentFrame = 6;
+    }
+    this.yDirection = -1;
+    this.velocity = this.movementSpeed;
+    if (this.currentFrame === 10) {
+      // console.log("reset frame to 6");
+      this.currentFrame = 6;
+    }
+    this.updateLocation();
+  }
+
 }
 
 ///////////////////////////////////////////////////////////////

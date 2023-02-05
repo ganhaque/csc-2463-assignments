@@ -20,9 +20,10 @@
     - [X] :star2: idle animation
     - [ ] :question: make `BABA` `IS` `YOU` block functional
       - [X] array to represent the grid for performance optimization :zap:
-        - [ ] movement should update the aray
+        - [X] movement should update the array
       - [X] character class for `BABA`
         - [X] character ID system for easier character creation
+        - [ ] check collision
       - [ ] ~~verb class for `IS`~~
       - [ ] ~~adjective class for `YOU`~~
       - [x] word class for noun, verb, adj, and simple objects (only wobble sprites)
