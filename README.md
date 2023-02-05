@@ -12,10 +12,10 @@
     - [X] :sparkles: different brush sizes
     - [X] :sparkles: statusbar to display current tool, size, and color
   - [ ] sprite animation
-    - [ ] :sparkles: grid movement system
+    - [X] :sparkles: grid movement system
     - [ ] :sound: sound fx & music
     - [ ] :dizzy: particles
-    - [ ] :star2: idle animation
+    - [X] :star2: idle animation
     - [ ] :question: make `BABA` `IS` `YOU` block functional
   - [ ] bug squish
 - [ ] sounds
