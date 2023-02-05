@@ -15,8 +15,15 @@
     - [X] :sparkles: grid movement system
     - [ ] :sound: sound fx & music
     - [ ] :dizzy: particles
+    - [ ] :art: different theme/color pallete
+    - [ ] :sparkles: recolor character
     - [X] :star2: idle animation
     - [ ] :question: make `BABA` `IS` `YOU` block functional
+      - [ ] array to represent the grid for performance optimization :zap:
+      - [ ] character class for `BABA`
+        - [ ] rework movement system?
+      - [ ] verb ~~class?~~ for `IS`
+      - [ ] adjective class for `YOU`
   - [ ] bug squish
 - [ ] sounds
   - [ ] sampler
