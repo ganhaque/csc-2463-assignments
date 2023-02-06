@@ -44,7 +44,9 @@ let colorPallete = [
 let gridIsFunctional = true;
 let isGridMovement = true; //note: problem on false mode
 let showGrid = true;
-let  gridArray = [];
+// let needUpdate = true;
+let needUpdatePushLeft = false;
+let gridArray = [];
 
 ///////////////////////////////////////////////////////////////
 function preload() {
@@ -55,23 +57,27 @@ function setup() {
   frameRate(24);
   createCanvas(tileLength*canvasWidthScaling, tileLength*canvasHeightScaling);
 
-  for(let i = 0; i < height / tileLength; i++) {
+  //Note: array actually go beyond the rendered canvas a bit
+  for(let i = 0; i <= height / tileLength; i++) {
     gridArray.push(new Array(width / tileLength).fill(0));
     // console.log("curren array[i][j] = ", gridArray[i]);
   }
 
-    // spriteSheet,
-    // initalX, initalY,
-    // spriteWidth, spriteHeight,
-    // animationLength,
-    // amountOfVariation,
-    // characterID,
-    // sizeScaling = 1,
-  gridArray[1][2] = 1;
-  gridArray[10][2] = 2;
+  // spriteSheet,
+  // initalX, initalY,
+  // spriteWidth, spriteHeight,
+  // animationLength,
+  // amountOfVariation,
+  // characterID,
+  // sizeScaling = 1,
+
+  // gridArray[1][2] = 1;
+  // gridArray[10][2] = 2;
   gridArray[10][8] = 3;
-  gridArray[11][8] = 11;
-  initialRenderOfGridArray();
+  gridArray[11][8] = 111;
+
+  renderCharacter();
+  renderObjects();
 }
 
 ///////////////////////////////////////////////////////////////
@@ -80,14 +86,23 @@ function draw() {
   if(showGrid) {
     drawGrid(canvasWidthScaling, canvasHeightScaling, 'rgb(20, 20, 255, 0.75)');
   }
+  if(needUpdatePushLeft) {
+    console.log("updating ...");
+    //reset character and word array
+    wordArray = [];
+    console.log("reset, now rendering");
+    renderObjects();
+    console.log("update completed");
+    needUpdatePushLeft = false;
+  }
   for(let i = 0; i < characterArray.length; i++) {
     characterArray[i].draw();
   }
   for(let i = 0; i < wordArray.length; i++) {
     wordArray[i].draw();
   }
-  noSmooth();
   //sprite searcher //DO NOT DELETE
+  // noSmooth();
   // image(spriteSheet, tileLength*2, tileLength*2, tileLength, tileLength, 18*tileLength, 30*tileLength, tileLength, tileLength);
 }
 
@@ -104,7 +119,7 @@ function keyReleased() {
   }
 }
 
-function initialRenderOfGridArray() {
+function renderCharacter() {
   for(let i = 0; i < gridArray.length; i++) {
     // console.log("i is", i);
     for(let j = 0; j < gridArray[i].length; j++) {
@@ -112,53 +127,38 @@ function initialRenderOfGridArray() {
       switch(gridArray[i][j]) {
         case 1:
           console.log("BABA IS AT [%d][%d]", i, j );
-          characterArray.push(
-            new Character(
-              spriteSheet,
-              tileLength * j, tileLength * i,
-              tileLength, tileLength,
-              5,
-              3,
-              1,
-            )
+          characterArray.push( new Character(
+            spriteSheet,
+            tileLength * j, tileLength * i, //location
+            tileLength, tileLength, //size
+            5, //animation length
+            3, //variation amount
+            1, //character ID
+          )
           )
           break;
         case 2:
           console.log("KEKE IS AT [%d][%d]", i, j);
-          characterArray.push(
-            new Character(
-              spriteSheet,
-              tileLength * j, tileLength * i,
-              tileLength, tileLength,
-              5,
-              3,
-              2,
-            )
+          characterArray.push( new Character(
+            spriteSheet,
+            tileLength * j, tileLength * i, //location
+            tileLength, tileLength, //size
+            5, //animation length
+            3, //variation amount
+            2, //character ID
+          )
           )
           break;
         case 3:
           console.log("ME IS AT [%d][%d]", i, j);
-          characterArray.push(
-            new Character(
-              spriteSheet,
-              tileLength * j, tileLength * i,
-              tileLength, tileLength,
-              5,
-              3,
-              3,
-            )
+          characterArray.push( new Character(
+            spriteSheet,
+            tileLength * j, tileLength * i, //location
+            tileLength, tileLength, //size
+            5, //animation length
+            3, //variation amount
+            3, //character ID
           )
-          break;
-        case 11:
-          console.log("IS IS AT [%d][%d]", i, j);
-          wordArray.push(
-            new Word(
-              spriteSheet,
-              tileLength * j, tileLength * i,
-              tileLength, tileLength,
-              3,
-              1,
-            )
           )
           break;
         default:
@@ -166,8 +166,32 @@ function initialRenderOfGridArray() {
       }
     }
   }
-
 }
+
+function renderObjects() {
+  for(let i = 0; i < gridArray.length; i++) {
+    // console.log("i is", i);
+    for(let j = 0; j < gridArray[i].length; j++) {
+      // console.log("j is", j);
+      switch(gridArray[i][j]) {
+        case 111:
+          console.log("IS IS AT [%d][%d]", i, j);
+          wordArray.push( new Word(
+            spriteSheet,
+            tileLength * j, tileLength * i,
+            tileLength, tileLength,
+            3,
+            1,
+          )
+          )
+          break;
+        default:
+        //nothing is at [i][j]
+      }
+    }
+  }
+}
+
 
 ///////////////////////////////////////////////////////////////
 class Word {
@@ -325,6 +349,7 @@ class Character {
     this.isYou = true;
     this.arrayJ = initalX / tileLength;
     this.arrayI = initalY / tileLength;
+    this.willCollide = false;
   }
 
   ///////////////////////////////////////////////////////////////
@@ -425,29 +450,193 @@ class Character {
   }
 
   ///////////////////////////////////////////////////////////////
+  pushObject() {
+    let objectCounter = 1;
+    let obecjetToPush = this.checkPushable();
+    if(this.xDirection === 1) { //pushing right
+      for (let i = 1; i <= obecjetToPush; i++) {
+        gridArray[this.arrayI][this.arrayJ + i + 1] = gridArray[this.arrayI][this.arrayJ + i];
+        if(objectCounter === 1) {
+
+        }
+        else {
+          //TODO: test multiple object push
+          console.log("else");
+          gridArray[this.arrayI][this.arrayJ + i] = gridArray[this.arrayI][this.arrayJ];
+        }
+        objectCounter += 1;
+      }
+    }
+    else if(this.xDirection === -1) {
+      for (let i = 1; i <= obecjetToPush; i++) {
+        console.log("pushing i is", i);
+        console.log("pushing [%d][%d] to [%d][%d] left", this.arrayI, this.arrayJ - i, this.arrayI, this.arrayJ - i - 1);
+        gridArray[this.arrayI][this.arrayJ - i - 1] = gridArray[this.arrayI][this.arrayJ - i];
+        //updateArrayLocation handle the character location
+        if(objectCounter === 1) {
+
+        }
+        else {
+          //TODO: test multiple object push
+          console.log("else");
+          gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
+        }
+        objectCounter += 1;
+      }
+    }
+    else if(this.yDirection === -1) {
+      for (let i = 1; i <= obecjetToPush; i++) {
+        gridArray[this.arrayI - i - 1][this.arrayJ] = gridArray[this.arrayI - i][this.arrayJ];
+        if(objectCounter === 1) {
+
+        }
+        else {
+          //TODO: implement multiple object push
+          console.log("else");
+          gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
+        }
+        objectCounter += 1;
+      }
+    }
+    else if(this.yDirection === 1) { //push down
+      for (let i = 1; i <= obecjetToPush; i++) {
+        gridArray[this.arrayI + i + 1][this.arrayJ] = gridArray[this.arrayI + i][this.arrayJ];
+        if(objectCounter === 1) {
+
+        }
+        else {
+          //TODO: implement multiple object push
+          console.log("else");
+          gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
+        }
+        objectCounter += 1;
+      }
+    }
+    needUpdatePushLeft = true;
+  }
+
+  ///////////////////////////////////////////////////////////////
+  checkPushable(strength = 2) {
+    let counter = 0;
+    if(this.xDirection === 1) {
+      for (let i = 1; i <= strength; i++) {
+        if(gridArray[this.arrayI][this.arrayJ + i] - 100 > 0) {
+          counter += 1;
+        }
+      }
+    }
+    else if(this.xDirection === -1) {
+      for (let i = 1; i <= strength; i++) {
+        if(gridArray[this.arrayI][this.arrayJ - i] - 100 > 0) {
+          counter += 1;
+        }
+      }
+    }
+    else if(this.yDirection === -1) {
+      for (let i = 1; i <= strength; i++) {
+        if(gridArray[this.arrayI - i][this.arrayJ] - 100 > 0) {
+          counter += 1;
+        }
+      }
+    }
+    else if(this.yDirection === 1) {
+      for (let i = 1; i <= strength; i++) {
+        if(gridArray[this.arrayI + i][this.arrayJ] - 100 > 0) {
+          counter += 1;
+        }
+      }
+    }
+    return counter;
+  }
   checkCollision() {
     console.log("checking collison");
-
     if(this.xDirection === 1) {
       console.log("right collison check");
+      if(gridArray[this.arrayI][this.arrayJ + 1] != 0) {
+        console.log("right collision!!!");
+        if(this.checkPushable() === 0) {
+          this.willCollide = true;
+          console.log("cannot push");
+        }
+        else {
+          console.log("pushing &d objects", this.checkPushable());
+          this.willCollide = false;
+          this.pushObject();
+        }
+      }
+      else {
+        console.log("no collision");
+        this.willCollide = false;
+      }
     }
     else if(this.xDirection === -1) {
       console.log("left collison check");
+      if(gridArray[this.arrayI][this.arrayJ - 1] != 0) {
+        console.log("left collision!!!");
+        if(this.checkPushable() === 0) {
+          this.willCollide = true;
+          console.log("cannot push");
+        }
+        else {
+          console.log("pushing &d objects", this.checkPushable());
+          this.willCollide = false;
+          this.pushObject();
+        }
+      }
+      else {
+        console.log("no collision");
+        this.willCollide = false;
+      }
     }
     else if(this.yDirection === -1) {
       console.log("up collison check");
+      if(gridArray[this.arrayI - 1][this.arrayJ] != 0) {
+        console.log("up collision!!!");
+        if(this.checkPushable() === 0) {
+          console.log("cannot push");
+          this.willCollide = true;
+        }
+        else {
+          console.log("pushing &d objects", this.checkPushable());
+          this.willCollide = false;
+          this.pushObject();
+        }
+      }
+      else {
+        console.log("no collision");
+        this.willCollide = false;
+      }
     }
     else if(this.yDirection === 1) {
       console.log("down collison check");
-    }
-
-    if(gridArray[this.arrayI + 1][this.arrayJ] != 0) {
-
+      if(gridArray[this.arrayI + 1][this.arrayJ] != 0) {
+        console.log("down collision!!!");
+        this.willCollide = true;
+        if(this.checkPushable() === 0) {
+          console.log("cannot push");
+        }
+        else {
+          console.log("pushing &d objects", this.checkPushable());
+          this.willCollide = false;
+          this.pushObject();
+        }
+      }
+      else {
+        console.log("no collision");
+        this.willCollide = false;
+      }
     }
   }
 
   ///////////////////////////////////////////////////////////////
   updateLocation() {
+    this.checkCollision();
+    if(this.willCollide) {
+      this.velocity = 0;
+    }
+    else {
+      this.velocity = this.movementSpeed;
+    }
     this.locationX += this.velocity * this.xDirection;
     this.locationY += this.velocity * this.yDirection;
     if(isGridMovement) {
@@ -456,10 +645,11 @@ class Character {
     }
     this.idleCounter = 0;
     this.updateArrayLocation();
+    // needUpdate = true;
   }
 
   updateArrayLocation() {
-    console.log("call");
+    console.log("updating character %d ...", this.characterID);
     console.log("current array of %d is [%d][%d]", this.characterID, this.arrayI, this.arrayJ);
     gridArray[this.arrayI][this.arrayJ] = 0;
     this.arrayI = (this.initalY+this.locationY) / 24;
@@ -513,7 +703,6 @@ class Character {
       // console.log("update frame:", this.currentFrame);
     }
     this.xDirection = -1;
-    this.velocity = this.movementSpeed;
     if (this.currentFrame === 15) {
       this.currentFrame = 11;
     }
@@ -531,7 +720,6 @@ class Character {
       // console.log("update frame:", this.currentFrame);
     }
     this.xDirection = 1;
-    this.velocity = this.movementSpeed;
     if (this.currentFrame === 5) {
       this.currentFrame = 1;
     }
@@ -549,7 +737,6 @@ class Character {
       this.currentFrame = 16;
     }
     this.yDirection = 1;
-    this.velocity = this.movementSpeed;
     if (this.currentFrame === 20) {
       // console.log("reset frame to 16");
       this.currentFrame = 16;
@@ -568,7 +755,6 @@ class Character {
       this.currentFrame = 6;
     }
     this.yDirection = -1;
-    this.velocity = this.movementSpeed;
     if (this.currentFrame === 10) {
       // console.log("reset frame to 6");
       this.currentFrame = 6;
