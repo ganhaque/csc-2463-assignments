@@ -1,7 +1,7 @@
 //Canvas properties:
-let tileLength = 24;
-let canvasWidthScaling = 24;
-let canvasHeightScaling = 14;
+let TILE_LENGTH = 24;
+let CANVAS_WIDTH_SCALING = 24;
+let CANVAS_HEIGHT_SCALING = 14;
 let canvasColor = "#080808";
 
 let pixels;
@@ -70,11 +70,11 @@ function preload() {
 
 function setup() {
   frameRate(24);
-  createCanvas(tileLength*canvasWidthScaling, tileLength*canvasHeightScaling);
+  createCanvas(TILE_LENGTH*CANVAS_WIDTH_SCALING, TILE_LENGTH*CANVAS_HEIGHT_SCALING);
 
   //Note: array actually go beyond the rendered canvas a bit
-  for(let i = 0; i <= height / tileLength; i++) {
-    gridArray.push(new Array(width / tileLength).fill(0));
+  for(let i = 0; i <= height / TILE_LENGTH; i++) {
+    gridArray.push(new Array(width / TILE_LENGTH).fill(0));
     // console.log("curren array[i][j] = ", gridArray[i]);
   }
 
@@ -105,7 +105,7 @@ function setup() {
 function draw() {
   background(canvasColor);
   if(showGrid) {
-    drawGrid(canvasWidthScaling, canvasHeightScaling, 'rgb(20, 20, 255, 0.75)');
+    drawGrid(CANVAS_WIDTH_SCALING, CANVAS_HEIGHT_SCALING, 'rgb(20, 20, 255, 0.75)');
   }
   if(needUpdateWord) {
     console.log("updating ...");
@@ -122,9 +122,9 @@ function draw() {
   for(let i = 0; i < wordArray.length; i++) {
     wordArray[i].draw();
   }
-  //sprite searcher //DO NOT DELETE
-  noSmooth();
-  image(spriteSheet, tileLength*2, tileLength*2, tileLength, tileLength, 20*tileLength, 30*tileLength, tileLength, tileLength);
+  //sprite searcher //DO NOT CLEAN UP
+  // noSmooth();
+  // image(spriteSheet, TILE_LENGTH*2, TILE_LENGTH*2, TILE_LENGTH, TILE_LENGTH, 20*TILE_LENGTH, 30*TILE_LENGTH, TILE_LENGTH, TILE_LENGTH);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -151,8 +151,8 @@ function renderCharacter() {
           console.log("BABA IS AT [%d][%d]", i, j );
           characterArray.push( new Character(
             spriteSheet,
-            tileLength * j, tileLength * i, //location
-            tileLength, tileLength, //size
+            TILE_LENGTH * j, TILE_LENGTH * i, //location
+            TILE_LENGTH, TILE_LENGTH, //size
             5, //animation length
             3, //variation amount
             1, //character ID
@@ -163,8 +163,8 @@ function renderCharacter() {
           console.log("KEKE IS AT [%d][%d]", i, j);
           characterArray.push( new Character(
             spriteSheet,
-            tileLength * j, tileLength * i, //location
-            tileLength, tileLength, //size
+            TILE_LENGTH * j, TILE_LENGTH * i, //location
+            TILE_LENGTH, TILE_LENGTH, //size
             5, //animation length
             3, //variation amount
             2, //character ID
@@ -175,8 +175,8 @@ function renderCharacter() {
           console.log("ME IS AT [%d][%d]", i, j);
           characterArray.push( new Character(
             spriteSheet,
-            tileLength * j, tileLength * i, //location
-            tileLength, tileLength, //size
+            TILE_LENGTH * j, TILE_LENGTH * i, //location
+            TILE_LENGTH, TILE_LENGTH, //size
             5, //animation length
             3, //variation amount
             3, //character ID
@@ -199,7 +199,7 @@ function renderObjects() {
           console.log("IS IS AT [%d][%d]", i, j);
           wordArray.push( new Word(
             spriteSheet,
-            tileLength * j, tileLength * i, tileLength, tileLength, 3,
+            TILE_LENGTH * j, TILE_LENGTH * i, TILE_LENGTH, TILE_LENGTH, 3,
             1,
           )
           )
@@ -208,7 +208,7 @@ function renderObjects() {
           console.log("BABA(text) IS AT [%d][%d]", i, j);
           wordArray.push( new Word(
             spriteSheet,
-            tileLength * j, tileLength * i, tileLength, tileLength, 3,
+            TILE_LENGTH * j, TILE_LENGTH * i, TILE_LENGTH, TILE_LENGTH, 3,
             2,
           )
           )
@@ -216,8 +216,8 @@ function renderObjects() {
         case 113:
           console.log("YOU IS AT [%d][%d]", i, j);
           wordArray.push( new Word(
-            spriteSheet, tileLength * j, tileLength * i,
-            tileLength, tileLength, 3,
+            spriteSheet, TILE_LENGTH * j, TILE_LENGTH * i,
+            TILE_LENGTH, TILE_LENGTH, 3,
             3,
           )
           )
@@ -225,8 +225,8 @@ function renderObjects() {
         case 114:
           console.log("KEKE(text) IS AT [%d][%d]", i, j);
           wordArray.push( new Word(
-            spriteSheet, tileLength * j, tileLength * i,
-            tileLength, tileLength, 3,
+            spriteSheet, TILE_LENGTH * j, TILE_LENGTH * i,
+            TILE_LENGTH, TILE_LENGTH, 3,
             4,
           )
           )
@@ -259,21 +259,21 @@ class Word {
 
     switch (characterID) {
       case 1:
-        this.spriteXCoordinate = 18*tileLength;
-        this.spriteYCoordinate = 30*tileLength;
+        this.spriteXCoordinate = 18*TILE_LENGTH;
+        this.spriteYCoordinate = 30*TILE_LENGTH;
         this.isText = true;
         break;
       case 2:
-        this.spriteXCoordinate = 6*tileLength;
-        this.spriteYCoordinate = 27*tileLength;
+        this.spriteXCoordinate = 6*TILE_LENGTH;
+        this.spriteYCoordinate = 27*TILE_LENGTH;
         break;
       case 3:
-        this.spriteXCoordinate = 20*tileLength;
-        this.spriteYCoordinate = 42*tileLength;
+        this.spriteXCoordinate = 20*TILE_LENGTH;
+        this.spriteYCoordinate = 42*TILE_LENGTH;
         break;
       case 4:
-        this.spriteXCoordinate = 20*tileLength;
-        this.spriteYCoordinate = 30*tileLength;
+        this.spriteXCoordinate = 20*TILE_LENGTH;
+        this.spriteYCoordinate = 30*TILE_LENGTH;
         break;
       default:
       console.log("how");
@@ -308,7 +308,7 @@ class Word {
     noSmooth();
     image(
       spriteSheet, this.initalX + this.locationX, this.initalY + this.locationY,
-      tileLength*this.sizeScaling, tileLength*this.sizeScaling,
+      TILE_LENGTH*this.sizeScaling, TILE_LENGTH*this.sizeScaling,
       this.spriteXCoordinate,
       this.spriteYCoordinate + (this.spriteHeight * this.currentVariation),
       this.spriteWidth, this.spriteHeight
@@ -354,11 +354,11 @@ class Character {
         break;
       case 2:
         this.spriteXCoordinate = 0;
-        this.spriteYCoordinate = 3*tileLength;
+        this.spriteYCoordinate = 3*TILE_LENGTH;
         break;
       case 3:
         this.spriteXCoordinate = 0;
-        this.spriteYCoordinate = 6*tileLength;
+        this.spriteYCoordinate = 6*TILE_LENGTH;
         break;
       default:
       console.log("how");
@@ -395,9 +395,23 @@ class Character {
     this.idleDelay = 2;
 
     this.isYou = true;
-    this.arrayJ = initalX / tileLength;
-    this.arrayI = initalY / tileLength;
+    this.arrayJ = initalX / TILE_LENGTH;
+    this.arrayI = initalY / TILE_LENGTH;
     this.willCollide = false;
+  }
+
+  ///////////////////////////////////////////////////////////////
+  getCharacterID() {
+    return this.characterID;
+  }
+  changeCharacterID(newID) {
+    this.characterID = newID;
+  }
+  getXLocationInGridArray() {
+    return this.arrayJ;
+  }
+  getYLocationInGridArray() {
+    return this.arrayI;
   }
 
   ///////////////////////////////////////////////////////////////
@@ -445,26 +459,12 @@ class Character {
     noSmooth();
     image(
       spriteSheet, this.initalX + this.locationX, this.initalY + this.locationY,
-      tileLength*this.sizeScaling, tileLength*this.sizeScaling,
+      TILE_LENGTH*this.sizeScaling, TILE_LENGTH*this.sizeScaling,
       this.spriteXCoordinate + (this.spriteWidth * this.currentFrame),
       this.spriteYCoordinate + (this.spriteHeight * this.currentVariation),
       this.spriteWidth, this.spriteHeight
     )
     pop();
-  }
-
-  ///////////////////////////////////////////////////////////////
-  getCharacterID() {
-    return this.characterID;
-  }
-  changeCharacterID(newID) {
-    this.characterID = newID;
-  }
-  getXLocationInGridArray() {
-    return this.arrayJ;
-  }
-  getYLocationInGridArray() {
-    return this.arrayI;
   }
 
   ///////////////////////////////////////////////////////////////
@@ -841,54 +841,3 @@ function drawGrid(column, row) {
 }
 
 ///////////////////////////////////////////////////////////////
-//this is going to be such bad codes.........
-// function findRules() {
-//   for(let i = 0; i < gridArray.length; i++) {
-//     for(let j = 0; j < gridArray[i].length; j++) {
-//       if(gridArray[i][j] - 100 > 0) {
-//         switch(gridArray[i][j]) {
-//           case 114:
-//             console.log("found KEKE(text)");
-//             if(scanRuleRight(i, j)) {
-//               for(let k = 0; k < characterArray.length; k++) {
-//                 if(characterArray[k].getCharacterID === 2) {
-//                   characterArray[k].changeCharacterID(1);
-//                 }
-//               }
-//
-//             }
-//             // scanRuleDown(i, j);
-//             break;
-//           default:
-//         }
-//       }
-//     }
-//   }
-// }
-//
-// function scanVerbRight(i, j) {
-//   if(
-//     gridArray[i][j + 1] === 111
-//   ) {
-//     console.log("found verb, return true");
-//     return true;
-//   }
-//   return false;
-// }
-//
-// function scanRuleRight(i, j) {
-//   if(scanVerbRight()) {
-//     switch(gridArray[i][j + 2]) {
-//       case 112:
-//         console.log("next word is BABA, return true");
-//         return true;
-//       default:
-//       console.log("there is no next word");
-//     }
-//   }
-//   return false;
-// }
-//
-// function scanRuleDown(i, j) {
-//   return false;
-// }
