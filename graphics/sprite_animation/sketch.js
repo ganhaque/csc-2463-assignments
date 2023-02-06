@@ -75,6 +75,7 @@ function setup() {
   // gridArray[10][2] = 2;
   gridArray[10][8] = 3;
   gridArray[11][8] = 111;
+  gridArray[12][8] = 111;
 
   renderCharacter();
   renderObjects();
@@ -385,7 +386,7 @@ class Character {
       if(frameCount % 24 === 0) {
         if(this.idleCounter <= this.idleDelay) {
           this.idleCounter += 1;
-          console.log("sleep counter:", this.idleCounter)
+          // console.log("sleep counter:", this.idleCounter)
         }
       }
       if(this.idleCounter > this.idleDelay) {
@@ -456,15 +457,15 @@ class Character {
     if(this.xDirection === 1) { //pushing right
       for (let i = 1; i <= obecjetToPush; i++) {
         gridArray[this.arrayI][this.arrayJ + i + 1] = gridArray[this.arrayI][this.arrayJ + i];
-        if(objectCounter === 1) {
-
-        }
-        else {
-          //TODO: test multiple object push
-          console.log("else");
-          gridArray[this.arrayI][this.arrayJ + i] = gridArray[this.arrayI][this.arrayJ];
-        }
-        objectCounter += 1;
+      //   if(objectCounter === 1) {
+      //
+      //   }
+      //   else {
+      //     //TODO: test multiple object push
+      //     console.log("else");
+      //     gridArray[this.arrayI][this.arrayJ + i] = gridArray[this.arrayI][this.arrayJ];
+      //   }
+      //   objectCounter += 1;
       }
     }
     else if(this.xDirection === -1) {
@@ -473,43 +474,46 @@ class Character {
         console.log("pushing [%d][%d] to [%d][%d] left", this.arrayI, this.arrayJ - i, this.arrayI, this.arrayJ - i - 1);
         gridArray[this.arrayI][this.arrayJ - i - 1] = gridArray[this.arrayI][this.arrayJ - i];
         //updateArrayLocation handle the character location
-        if(objectCounter === 1) {
-
-        }
-        else {
-          //TODO: test multiple object push
-          console.log("else");
-          gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
-        }
-        objectCounter += 1;
+        // if(objectCounter === 1) {
+        //
+        // }
+        // else {
+        //   //TODO: test multiple object push
+        //   console.log("else");
+        //   gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
+        // }
+        // objectCounter += 1;
       }
     }
     else if(this.yDirection === -1) {
       for (let i = 1; i <= obecjetToPush; i++) {
         gridArray[this.arrayI - i - 1][this.arrayJ] = gridArray[this.arrayI - i][this.arrayJ];
-        if(objectCounter === 1) {
-
-        }
-        else {
-          //TODO: implement multiple object push
-          console.log("else");
-          gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
-        }
-        objectCounter += 1;
+        // if(objectCounter === 1) {
+        //
+        // }
+        // else {
+        //   //TODO: implement multiple object push
+        //   console.log("else");
+        //   gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
+        // }
+        // objectCounter += 1;
       }
     }
     else if(this.yDirection === 1) { //push down
       for (let i = 1; i <= obecjetToPush; i++) {
         gridArray[this.arrayI + i + 1][this.arrayJ] = gridArray[this.arrayI + i][this.arrayJ];
-        if(objectCounter === 1) {
-
-        }
-        else {
-          //TODO: implement multiple object push
-          console.log("else");
-          gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
-        }
-        objectCounter += 1;
+        // if(objectCounter === 1) {
+        //
+        // }
+        // else {
+        //   //TODO: implement multiple object push
+        //   console.log("else");
+        //   console.log("prev", gridArray[this.arrayI][this.arrayJ - i]);
+        //   gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
+        //   console.log("i and j", this.arrayI, this.arrayJ);
+        //   console.log("changed", gridArray[this.arrayI][this.arrayJ - i]);
+        // }
+        // objectCounter += 1;
       }
     }
     needUpdatePushLeft = true;
@@ -649,7 +653,7 @@ class Character {
   }
 
   updateArrayLocation() {
-    console.log("updating character %d ...", this.characterID);
+    // console.log("updating character %d ...", this.characterID);
     console.log("current array of %d is [%d][%d]", this.characterID, this.arrayI, this.arrayJ);
     gridArray[this.arrayI][this.arrayJ] = 0;
     this.arrayI = (this.initalY+this.locationY) / 24;

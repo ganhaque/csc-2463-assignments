@@ -25,7 +25,7 @@
         - [X] character ID system for easier character creation
         - [X] check collision
         - [X] make push functional
-        - [ ] test push/collision for multiple objects
+        - [X] test push/collision for multiple objects
       - [ ] ~~verb class for `IS`~~
       - [ ] ~~adjective class for `YOU`~~
       - [x] word class for noun, verb, adj, and simple objects (only wobble sprites)
