@@ -45,11 +45,26 @@ let gridIsFunctional = true;
 let isGridMovement = true; //note: problem on false mode
 let showGrid = true;
 // let needUpdate = true;
-let needUpdatePushLeft = false;
+let needUpdateWord = false;
+let needUpdateCharacter = false;
 let gridArray = [];
+let moveSoundCounter = 0;
+let moveSoundArray = [];
+
+//TODO: maybe make wobble a global variable so that the updated sprite when moving would be less janky?
 
 ///////////////////////////////////////////////////////////////
 function preload() {
+  soundFormats('ogg', 'mp3');
+  moveSoundArray.push(loadSound('assets/sound_fx/047'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/048'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/049'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/050'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/051'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/052'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/053'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/054'));
+  // moveSoundArray.push(loadSound('assets/sound_fx/055'));
   spriteSheet = loadImage("assets/gameplay_sprites.png");
 }
 
@@ -73,9 +88,14 @@ function setup() {
 
   // gridArray[1][2] = 1;
   // gridArray[10][2] = 2;
-  gridArray[10][8] = 3;
-  gridArray[11][8] = 111;
-  gridArray[12][8] = 111;
+  gridArray[8][10] = 2;
+  gridArray[9][8] = 114;
+  gridArray[8][8] = 111;
+  gridArray[9][9] = 111;
+  gridArray[8][9] = 111;
+  gridArray[5][7] = 112;
+  gridArray[5][8] = 111;
+  gridArray[5][9] = 113;
 
   renderCharacter();
   renderObjects();
@@ -87,14 +107,14 @@ function draw() {
   if(showGrid) {
     drawGrid(canvasWidthScaling, canvasHeightScaling, 'rgb(20, 20, 255, 0.75)');
   }
-  if(needUpdatePushLeft) {
+  if(needUpdateWord) {
     console.log("updating ...");
     //reset character and word array
     wordArray = [];
     console.log("reset, now rendering");
     renderObjects();
     console.log("update completed");
-    needUpdatePushLeft = false;
+    needUpdateWord = false;
   }
   for(let i = 0; i < characterArray.length; i++) {
     characterArray[i].draw();
@@ -103,8 +123,8 @@ function draw() {
     wordArray[i].draw();
   }
   //sprite searcher //DO NOT DELETE
-  // noSmooth();
-  // image(spriteSheet, tileLength*2, tileLength*2, tileLength, tileLength, 18*tileLength, 30*tileLength, tileLength, tileLength);
+  noSmooth();
+  image(spriteSheet, tileLength*2, tileLength*2, tileLength, tileLength, 20*tileLength, 30*tileLength, tileLength, tileLength);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -120,6 +140,7 @@ function keyReleased() {
   }
 }
 
+///////////////////////////////////////////////////////////////
 function renderCharacter() {
   for(let i = 0; i < gridArray.length; i++) {
     // console.log("i is", i);
@@ -163,7 +184,6 @@ function renderCharacter() {
           )
           break;
         default:
-        //nothing is at [i][j]
       }
     }
   }
@@ -179,20 +199,43 @@ function renderObjects() {
           console.log("IS IS AT [%d][%d]", i, j);
           wordArray.push( new Word(
             spriteSheet,
-            tileLength * j, tileLength * i,
-            tileLength, tileLength,
-            3,
+            tileLength * j, tileLength * i, tileLength, tileLength, 3,
             1,
           )
           )
           break;
+        case 112:
+          console.log("BABA(text) IS AT [%d][%d]", i, j);
+          wordArray.push( new Word(
+            spriteSheet,
+            tileLength * j, tileLength * i, tileLength, tileLength, 3,
+            2,
+          )
+          )
+          break;
+        case 113:
+          console.log("YOU IS AT [%d][%d]", i, j);
+          wordArray.push( new Word(
+            spriteSheet, tileLength * j, tileLength * i,
+            tileLength, tileLength, 3,
+            3,
+          )
+          )
+          break;
+        case 114:
+          console.log("KEKE(text) IS AT [%d][%d]", i, j);
+          wordArray.push( new Word(
+            spriteSheet, tileLength * j, tileLength * i,
+            tileLength, tileLength, 3,
+            4,
+          )
+          )
+          break;
         default:
-        //nothing is at [i][j]
       }
     }
   }
 }
-
 
 ///////////////////////////////////////////////////////////////
 class Word {
@@ -218,16 +261,25 @@ class Word {
       case 1:
         this.spriteXCoordinate = 18*tileLength;
         this.spriteYCoordinate = 30*tileLength;
+        this.isText = true;
         break;
-      // case 2:
-      //   this.spriteXCoordinate = 0;
-      //   this.spriteYCoordinate = 3*tileLength;
-      //   break;
-      // case 3:
-      //   this.spriteXCoordinate = 0;
-      //   this.spriteYCoordinate = 6*tileLength;
+      case 2:
+        this.spriteXCoordinate = 6*tileLength;
+        this.spriteYCoordinate = 27*tileLength;
+        break;
+      case 3:
+        this.spriteXCoordinate = 20*tileLength;
+        this.spriteYCoordinate = 42*tileLength;
+        break;
+      case 4:
+        this.spriteXCoordinate = 20*tileLength;
+        this.spriteYCoordinate = 30*tileLength;
+        break;
       default:
       console.log("how");
+    }
+    if(this.isText) {
+      this.isPush = true;
     }
     // this.color = color;
     this.sizeScaling = sizeScaling;
@@ -272,11 +324,6 @@ class Word {
     else {
       this.currentVariation += 1;
     }
-  }
-
-  ///////////////////////////////////////////////////////////////
-  pushRight() {
-
   }
 }
 
@@ -407,6 +454,20 @@ class Character {
   }
 
   ///////////////////////////////////////////////////////////////
+  getCharacterID() {
+    return this.characterID;
+  }
+  changeCharacterID(newID) {
+    this.characterID = newID;
+  }
+  getXLocationInGridArray() {
+    return this.arrayJ;
+  }
+  getYLocationInGridArray() {
+    return this.arrayI;
+  }
+
+  ///////////////////////////////////////////////////////////////
   wobble() {
     if(this.currentVariation >= this.amountOfVariation - 1) {
       this.currentVariation = 0;
@@ -452,106 +513,88 @@ class Character {
 
   ///////////////////////////////////////////////////////////////
   pushObject() {
-    let objectCounter = 1;
+    //TODO: loop should go in reverse to function for diff objects
     let obecjetToPush = this.checkPushable();
     if(this.xDirection === 1) { //pushing right
-      for (let i = 1; i <= obecjetToPush; i++) {
+      // for (let i = 1; i <= obecjetToPush; i++) {
+      for (let i = obecjetToPush; i > 0; i--) {
         gridArray[this.arrayI][this.arrayJ + i + 1] = gridArray[this.arrayI][this.arrayJ + i];
-      //   if(objectCounter === 1) {
-      //
-      //   }
-      //   else {
-      //     //TODO: test multiple object push
-      //     console.log("else");
-      //     gridArray[this.arrayI][this.arrayJ + i] = gridArray[this.arrayI][this.arrayJ];
-      //   }
-      //   objectCounter += 1;
       }
     }
     else if(this.xDirection === -1) {
-      for (let i = 1; i <= obecjetToPush; i++) {
+      for (let i = obecjetToPush; i > 0; i--) {
         console.log("pushing i is", i);
         console.log("pushing [%d][%d] to [%d][%d] left", this.arrayI, this.arrayJ - i, this.arrayI, this.arrayJ - i - 1);
         gridArray[this.arrayI][this.arrayJ - i - 1] = gridArray[this.arrayI][this.arrayJ - i];
-        //updateArrayLocation handle the character location
-        // if(objectCounter === 1) {
-        //
-        // }
-        // else {
-        //   //TODO: test multiple object push
-        //   console.log("else");
-        //   gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
-        // }
-        // objectCounter += 1;
       }
     }
     else if(this.yDirection === -1) {
-      for (let i = 1; i <= obecjetToPush; i++) {
+      for (let i = obecjetToPush; i > 0; i--) {
         gridArray[this.arrayI - i - 1][this.arrayJ] = gridArray[this.arrayI - i][this.arrayJ];
-        // if(objectCounter === 1) {
-        //
-        // }
-        // else {
-        //   //TODO: implement multiple object push
-        //   console.log("else");
-        //   gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
-        // }
-        // objectCounter += 1;
       }
     }
     else if(this.yDirection === 1) { //push down
-      for (let i = 1; i <= obecjetToPush; i++) {
+      for (let i = obecjetToPush; i > 0; i--) {
         gridArray[this.arrayI + i + 1][this.arrayJ] = gridArray[this.arrayI + i][this.arrayJ];
-        // if(objectCounter === 1) {
-        //
-        // }
-        // else {
-        //   //TODO: implement multiple object push
-        //   console.log("else");
-        //   console.log("prev", gridArray[this.arrayI][this.arrayJ - i]);
-        //   gridArray[this.arrayI][this.arrayJ - i] = gridArray[this.arrayI][this.arrayJ];
-        //   console.log("i and j", this.arrayI, this.arrayJ);
-        //   console.log("changed", gridArray[this.arrayI][this.arrayJ - i]);
-        // }
-        // objectCounter += 1;
       }
     }
-    needUpdatePushLeft = true;
+    needUpdateWord = true;
   }
 
   ///////////////////////////////////////////////////////////////
-  checkPushable(strength = 2) {
+  checkPushable(strength = 4) {
     let counter = 0;
     if(this.xDirection === 1) {
-      for (let i = 1; i <= strength; i++) {
+      for (let i = 1; i <= strength + 1; i++) {
+        if(gridArray[this.arrayI][this.arrayJ + i] === 0) {
+          console.log("special return", counter);
+          return counter;
+        }
         if(gridArray[this.arrayI][this.arrayJ + i] - 100 > 0) {
           counter += 1;
         }
       }
     }
     else if(this.xDirection === -1) {
-      for (let i = 1; i <= strength; i++) {
+      for (let i = 1; i <= strength + 1; i++) {
+        if(gridArray[this.arrayI][this.arrayJ - i] === 0) {
+          console.log("special return", counter);
+          return counter;
+        }
         if(gridArray[this.arrayI][this.arrayJ - i] - 100 > 0) {
           counter += 1;
         }
       }
     }
     else if(this.yDirection === -1) {
-      for (let i = 1; i <= strength; i++) {
+      for (let i = 1; i <= strength + 1; i++) {
+        if(gridArray[this.arrayI - i][this.arrayJ] === 0) {
+          console.log("special return", counter);
+          return counter;
+        }
         if(gridArray[this.arrayI - i][this.arrayJ] - 100 > 0) {
           counter += 1;
         }
       }
     }
     else if(this.yDirection === 1) {
-      for (let i = 1; i <= strength; i++) {
+      for (let i = 1; i <= strength + 2; i++) {
+        if(gridArray[this.arrayI + i][this.arrayJ] === 0) {
+          console.log("special return", counter);
+          return counter;
+        }
         if(gridArray[this.arrayI + i][this.arrayJ] - 100 > 0) {
           counter += 1;
         }
       }
     }
+    if(counter >= strength) {
+      console.log("too much!!! not enough stronk");
+      return 0;
+    }
     return counter;
   }
+
   checkCollision() {
     console.log("checking collison");
     if(this.xDirection === 1) {
@@ -648,7 +691,21 @@ class Character {
       // this.movementSpeed = 24;
     }
     this.idleCounter = 0;
-    this.updateArrayLocation();
+    if(!this.willCollide) {
+      console.log("playing", moveSoundCounter);
+      moveSoundArray[moveSoundCounter].play();
+      //THIS DOESNT WORK BUT IT IS STILL GOOD??????
+      // console.log("moveSoundArray:", moveSoundArray.length);
+      // if(moveSoundCounter => moveSoundArray.length) {
+      //   console.log("reset moveSoundCounter");
+      //   moveSoundCounter = 0;
+      // }
+      // else {
+      //   moveSoundCounter += 1;
+      //   console.log("updated moveSoundCounter", moveSoundCounter);
+      // }
+      this.updateArrayLocation();
+    }
     // needUpdate = true;
   }
 
@@ -687,6 +744,7 @@ class Character {
       this.velocity = 0;
       this.idleCounter = 0;
       this.holdKeyCounter = 0;
+      // moveSoundCounter = 0;
       if(!isGridMovement){
         this.spriteIsReset();
       }
@@ -783,3 +841,54 @@ function drawGrid(column, row) {
 }
 
 ///////////////////////////////////////////////////////////////
+//this is going to be such bad codes.........
+// function findRules() {
+//   for(let i = 0; i < gridArray.length; i++) {
+//     for(let j = 0; j < gridArray[i].length; j++) {
+//       if(gridArray[i][j] - 100 > 0) {
+//         switch(gridArray[i][j]) {
+//           case 114:
+//             console.log("found KEKE(text)");
+//             if(scanRuleRight(i, j)) {
+//               for(let k = 0; k < characterArray.length; k++) {
+//                 if(characterArray[k].getCharacterID === 2) {
+//                   characterArray[k].changeCharacterID(1);
+//                 }
+//               }
+//
+//             }
+//             // scanRuleDown(i, j);
+//             break;
+//           default:
+//         }
+//       }
+//     }
+//   }
+// }
+//
+// function scanVerbRight(i, j) {
+//   if(
+//     gridArray[i][j + 1] === 111
+//   ) {
+//     console.log("found verb, return true");
+//     return true;
+//   }
+//   return false;
+// }
+//
+// function scanRuleRight(i, j) {
+//   if(scanVerbRight()) {
+//     switch(gridArray[i][j + 2]) {
+//       case 112:
+//         console.log("next word is BABA, return true");
+//         return true;
+//       default:
+//       console.log("there is no next word");
+//     }
+//   }
+//   return false;
+// }
+//
+// function scanRuleDown(i, j) {
+//   return false;
+// }

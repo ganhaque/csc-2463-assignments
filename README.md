@@ -13,7 +13,7 @@
     - [X] :sparkles: statusbar to display current tool, size, and color
   - [X] sprite animation
     - [X] :sparkles: grid movement system
-    - [ ] :sound: sound fx & music
+    - [ ] :sound: sound fx & music (partial)
     - [ ] :dizzy: particles
     - [ ] :art: different theme/color pallete
     - [ ] :sparkles: recolor character
@@ -23,12 +23,14 @@
         - [X] movement should update the array
       - [X] character class for `BABA`
         - [X] character ID system for easier character creation
+          - [ ] a better ID system to check for properties of the objects?
         - [X] check collision
         - [X] make push functional
-        - [X] test push/collision for multiple objects
-      - [ ] ~~verb class for `IS`~~
-      - [ ] ~~adjective class for `YOU`~~
-      - [x] word class for noun, verb, adj, and simple objects (only wobble sprites)
+        - [X] implement push/collision for multiple objects
+        - [X] implement push/collision for multiple **different** objects
+      - [X] ~~verb class for `IS`~~
+      - [X] ~~adjective class for `YOU`~~
+      - [X] word class for noun, verb, adj, and simple objects (only wobble sprites)
   - [ ] bug squish
 - [ ] sounds
   - [ ] sampler
