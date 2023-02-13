@@ -272,15 +272,16 @@ function setup() {
   // bugArray.push(new Bug(spriteSheet, 8*TILE_LENGTH, 5*TILE_LENGTH, TILE_LENGTH, 1, "h", 1, 1, 1 ));
   // bugArray.push(new Bug(spriteSheet, 8000, 5000, 2400, 1, "v", 1, 0.5, 1 ));
   bugArray.push(new Bug(spriteSheet, 200, 400, 600, 960, "v", 1, -10, 0.5 ));
+  bugArray.push(new Bug(spriteSheet, 200, 400, 600, 960, "h", 1, -10, 0.5 ));
 }
 
-    // spriteSheet,
-    // initalX, initalY,
-    // spriteSize,
-    // characterID,
-    // healthPoint,
-    // movementSpeed,
-    // sizeScaling,
+// spriteSheet,
+// initalX, initalY,
+// spriteSize,
+// characterID,
+// healthPoint,
+// movementSpeed,
+// sizeScaling,
 
 ///////////////////////////////////////////////////////////////
 function draw() {
@@ -292,7 +293,9 @@ function draw() {
   //sprite searcher //DO NOT CLEAN UP
   // noSmooth();
   // image(spriteSheet, 0, 200, 220, 400, 600, 0, 600, 960);
-  image(spriteSheet, 0, 200, 220, 400, 0, 940, 600, 960);
+  // image(spriteSheet, 0, 200, 220, 400, 0, 1016, 600, 960);
+  image(spriteSheet, 0, 200, 400, 220, 0, 1945, 960, 600);
+  // image(spriteSheet, 0, 200, 165, 250, 2500, 0, 500, 825);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -300,13 +303,11 @@ function keyPressed() {
 }
 
 ///////////////////////////////////////////////////////////////
-function renderPlayground(width, height, color) {
-  fill(color);
-  rect(0, 0, width, height);
-}
 function mousePressed() {
   for(let i = 0; i < bugArray.length; i++) {
-    bugArray[i].hitboxCheck(mouseX, mouseY);
+    if(bugArray[i].hitboxCheck(mouseX, mouseY)) {
+      bugArray[i].squished();
+    }
     console.log(bugArray[i].hitboxCheck(mouseX, mouseY));
   }
 }
@@ -326,16 +327,8 @@ class Bug {
     this.spriteSheet = spriteSheet;
     this.initalX = initalX;
     this.initalY = initalY;
-    this.spriteWidth = spriteWidth;
-    this.spriteHeight = spriteHeight;
 
-    // this.characterType = characterType;
-    // switch(characterType) {
-    //   case 1:
-    //     console.log("execute");
-    //     this.spriteXCoordinate = 0;
-    //     this.spriteYCoordinate = 4*TILE_LENGTH;
-    // }
+
 
     this.characterID = characterID;
 
@@ -352,9 +345,21 @@ class Bug {
       switch(characterID[i]) {
         case 'h':
           this.onlyMoveHorizontally = true;
+          this.spriteWidth = spriteHeight;
+          this.spriteHeight = spriteWidth;
+          this.destinationX = 400;
+          this.destinationY = 220;
+          this.spriteXCoordinate = 0;
+          this.spriteYCoordinate = 1945;
           break;
         case 'v':
           this.onlyMoveVertically = true;
+          this.spriteWidth = spriteWidth;
+          this.spriteHeight = spriteHeight;
+          this.destinationX = 220;
+          this.destinationY = 400;
+          this.spriteXCoordinate = 0;
+          this.spriteYCoordinate = 0;
           break;
         case 'e':
           this.erracticMovement = true;
@@ -375,6 +380,8 @@ class Bug {
     this.locationY = 0;
     this.currentMovementVariation = 0;
     this.isAlive = true;
+
+    this.previousMovementSpeed = movementSpeed;
   }
 
   ///////////////////////////////////////////////////////////////
@@ -384,12 +391,12 @@ class Bug {
 
     this.checkCanvasCollision();
 
-    if(frameCount % 4 === 0) {
-      // console.log("call");
-      this.animationHandler();
-    }
 
     if(this.isAlive) {
+      if(frameCount % 4 === 0) {
+        // console.log("call");
+        this.animationHandler();
+      }
       this.updateLocation();
     }
 
@@ -399,26 +406,55 @@ class Bug {
     // console.log(this.hitboxCheck(mouseX, mouseY));
     // this.hitboxCheck(mouseX, mouseY);
     // image(spriteSheet, 0, 200, 220, 400, 0, 0, 600, 960);
-    image(
-      spriteSheet, this.initalX, this.initalY,
-      220*this.sizeScaling, 400*this.sizeScaling,
-      this.spriteXCoordinate + (this.spriteWidth * this.currentFrame),
-      this.spriteYCoordinate,
-      this.spriteWidth, this.spriteHeight
-    )
+    if(this.onlyMoveVertically) {
+      image(
+        spriteSheet, this.initalX, this.initalY,
+        this.destinationX*this.sizeScaling, this.destinationY*this.sizeScaling,
+        this.spriteXCoordinate + (this.spriteWidth * this.currentFrame),
+        this.spriteYCoordinate,
+        this.spriteWidth, this.spriteHeight
+      )
+    }
+    else if(this.onlyMoveHorizontally) {
+      image(
+        spriteSheet, this.initalX, this.initalY,
+        this.destinationX*this.sizeScaling, this.destinationY*this.sizeScaling,
+        this.spriteXCoordinate,
+        this.spriteYCoordinate + (this.spriteHeight * this.currentFrame),
+        this.spriteWidth, this.spriteHeight
+      )
+    }
     pop();
   }
 
   ///////////////////////////////////////////////////////////////
   hitboxCheck(x,y) {
     // console.log("check hitbox...");
-    rect(12, 10, this.spriteWidth - 23, this.spriteHeight - 16);
-    let insideX = (x >= this.initalX + 12 && x <= this.initalX + 12);
+    // rect(12, 10, this.spriteWidth - 23, this.spriteHeight - 16);
+    let insideX = (x <= this.initalX + this.destinationX*this.sizeScaling && x >= this.initalX);
+    console.log("condition 1:", this.initalX + this.destinationX*this.sizeScaling);
+    console.log("condition 2:", this.initalX);
     console.log("x:", insideX);
-    let insideY = (y >= this.initalY + this.spriteWidth - 23 && x <= this.initalX + 12);
+    let insideY = (y <= this.initalY + this.destinationY*this.sizeScaling && y >= this.initalY);
     console.log("y:", insideY);
     return (insideX && insideY)
   }
+  squished() {
+    this.movementSpeed = 0;
+    this.isAlive = false;
+    this.spriteXCoordinate = 2500;
+    this.spriteYCoordinate = 0;
+    this.spriteWidth = 500;
+    this.currentFrame = 0;
+    // image(spriteSheet, 0, 200, 220, 400, 1800, 0, 600, 960);
+    // image(spriteSheet, 0, 200, 165, 250, 2500, 0, 500, 825);
+
+  }
+  // move() {
+  //   this.movementSpeed = this.previousMovementSpeed;
+  //   console.log("move is called");
+  //   this.isAlive = true;
+  // }
 
   ///////////////////////////////////////////////////////////////
   updateLocation() {
@@ -457,10 +493,23 @@ class Bug {
   // }
 
   checkCanvasCollision() {
-    if(this.initalX - 12 > width || this.initalX - 12 < 0) {
-      // console.log("collided");
+    // if(this.initalX - 12 > width || this.initalX - 12 < 0) {
+    //   // console.log("collided");
+    //   this.movementSpeed *= -1;
+    //   this.previousMovementSpeed = this.movementSpeed;
+    // }
+    if(this.sizeScaling * this.initalX < 0) {
+      console.log("collided");
       this.movementSpeed *= -1;
+      this.spriteXCoordinate = 910;
     }
+    if(this.initalX + this.sizeScaling*400 > width) {
+      console.log("collided");
+      this.movementSpeed *= -1;
+      this.previousMovementSpeed = this.movementSpeed;
+      this.spriteXCoordinate = 0;
+    }
+
     if(this.sizeScaling * this.initalY < 0) {
       console.log("collided");
       this.movementSpeed *= -1;
@@ -469,55 +518,17 @@ class Bug {
     if(this.initalY + this.sizeScaling*400 > height) {
       console.log("collided");
       this.movementSpeed *= -1;
+      this.previousMovementSpeed = this.movementSpeed;
       this.spriteYCoordinate = 0;
     }
   }
 
   animationHandler() {
-    switch(this.currentFrame) {
-      case 0:
-        // console.log("a:", this.currentMovementVariation);
-        if(this.currentMovementVariation === 0) {
-          // console.log("0-1");
-          this.currentFrame += 1;
-        }
-        else {
-          // console.log("0-2");
-          this.currentFrame = 3;
-        }
-        break;
-      case 1:
-        if(this.currentMovementVariation === 0) {
-          this.currentFrame += 1;
-        }
-        else {
-          this.currentFrame -= 1;
-        }
-        break;
-      case 2:
-        this.currentFrame -= 1;
-        // console.log("b:", this.currentMovementVariation);
-        this.currentMovementVariation = 1;
-        // console.log("a:", this.currentMovementVariation);
-        break;
-      case 3:
-        if(this.currentMovementVariation === 1) {
-          this.currentFrame += 1;
-        }
-        else {
-          this.currentFrame = 0;
-        }
-        break;
-      case 4:
-        if(this.currentMovementVariation === 1) {
-          this.currentFrame -= 1;
-          // console.log("a:", this.currentMovementVariation);
-          this.currentMovementVariation = 0;
-          // console.log("a:", this.currentMovementVariation);
-        }
-        break;
-      default:
-      console.log("animation went wrong");
+    if(this.currentFrame < 2) {
+      this.currentFrame += 1;
+    }
+    else {
+      this.currentFrame = 0;
     }
   }
 }
