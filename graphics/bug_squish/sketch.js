@@ -351,7 +351,7 @@ function draw() {
       text("Score: " + scoreData.score,width/2,height/2 + 60);
       text("Max Score: " + scoreData.highScore,width/2,height/2 + 136);
       textSize(76);
-      text("Press r to restart", width/2, height/2 + 360);
+      text("Press s to restart", width/2, height/2 + 360);
       break;
   }
   //sprite searcher //DO NOT CLEAN UP
@@ -395,10 +395,11 @@ function renderScoreBoard() {
   push();
   fill(255);
   textFont(myFont);
-  textAlign(RIGHT);
   textSize(86);
-  text(scoreData.score,60,82);
+  textAlign(LEFT);
+  text(scoreData.score,37,82);
   let currentTime = gameData.timePerLevel - gameData.elapsedTime;
+  textAlign(RIGHT);
   text(ceil(currentTime), width - 40,82);
   // text(ceil(deltaTime), width - 60,40);
   gameData.elapsedTime += deltaTime / 1000;
@@ -414,6 +415,19 @@ function renderScoreBoard() {
 
 ///////////////////////////////////////////////////////////////
 function keyPressed() {
+  if(keyCode === 83) {
+    switch(gameData.state) {
+      case GAME_STATE.StartingScreen:
+        console.log("Start -> Playing");
+        gameData.state = GAME_STATE.Playing;
+        break;
+      case GAME_STATE.GameOver:
+        console.log("GameOver -> Playing");
+        restart();
+        gameData.state = GAME_STATE.Playing;
+        break;
+    }
+  }
 }
 
 ///////////////////////////////////////////////////////////////
@@ -421,8 +435,9 @@ function mousePressed() {
   for(let i = 0; i < bugArray.length; i++) {
     if(bugArray[i].hitboxCheck(mouseX, mouseY)) {
       bugArray[i].squished();
+      scoreData.score += 1;
     }
-    console.log(bugArray[i].hitboxCheck(mouseX, mouseY));
+    // console.log(bugArray[i].hitboxCheck(mouseX, mouseY));
   }
 }
 ///////////////////////////////////////////////////////////////
