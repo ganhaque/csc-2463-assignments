@@ -365,7 +365,8 @@ function draw() {
 ///////////////////////////////////////////////////////////////
 function restart() {
   gameData.elapsedTime = 0;
-  gameData.score = 0;
+  scoreData.score = 0;
+  console.log("score", gameData.score);
   gameData.amountOfBug = random(12, 30);
 
   bugArray = [];
