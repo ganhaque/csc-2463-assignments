@@ -23,7 +23,7 @@ const GAME_STATE = {
 
 let scoreData = { score: 0, highScore: 0 };
 // let gameData = { timePerLevel: 10, elapsedTime: 0, amountOfBug: 16, state: GAME_STATE.StartingScreen };
-let gameData = { timePerLevel: 10, elapsedTime: 0, amountOfBug: 16, state: GAME_STATE.StartingScreen };
+let gameData = { timePerLevel: 30, elapsedTime: 0, amountOfBug: 16, state: GAME_STATE.StartingScreen };
 
 ///////////////////////////////////////////////////////////////
 function preload() {

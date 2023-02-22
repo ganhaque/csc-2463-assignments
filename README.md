@@ -31,7 +31,7 @@
       - [X] ~~verb class for `IS`~~
       - [X] ~~adjective class for `YOU`~~
       - [X] word class for noun, verb, adj, and simple objects (only wobble sprites)
-  - [ ] bug squish
+  - [X] bug squish
 - [ ] sounds
   - [ ] sampler
   - [ ] synths and sequencers
