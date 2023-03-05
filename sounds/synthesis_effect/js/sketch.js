@@ -2,7 +2,7 @@
 let ornn;
 
 function preload() {
-  ornn = loadImage('/../assets/Ornn_0.jpg')
+  ornn = loadImage('./../assets/Ornn_0.jpg')
 }
 
 
