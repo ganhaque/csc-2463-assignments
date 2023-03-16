@@ -1,0 +1,13 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+#nxUI {
+  display: flex;
+  /* align-items: flex-start; */
+  /* display: inline-block; */
+}
