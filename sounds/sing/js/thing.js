@@ -74,7 +74,7 @@ sketch.setup = async function() {
   // Setup a synth with ToneJS
   // We use a poly synth which can hold up to numRows voices
   // Then we will play each note on a different voice
-  synth = new Tone.PolySynth({numRows}, Tone.DuoSynth);   
+  synth = new Tone.PolySynth({numRows}, Tone.DuoSynth);
 
   // Setup the synths a little bit
   synth.set({
