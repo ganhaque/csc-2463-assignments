@@ -8,6 +8,7 @@ let canvasColor = "#080808";
 
 let gridArray = [];
 let showGrid = true;
+let pixelMode = true;
 
 /*
 every color has a melody, instrument, and complement
@@ -42,7 +43,7 @@ kickDrum - complement
 */
 
 // Master volume in decior audio
-let volume = -15;
+let volume = -12;
 let synth // The synth that plays notes
 
 // Whether the audio sequence is playing
@@ -61,8 +62,6 @@ let currentColumn = 0;
 // const notes = ['A3', 'C4', 'D4', 'E4', 'G4', 'A4'];
 // const notes = [ "A4", "D3", "E3", "G4", 'F#4' ];
 // const notes = ["C5", "A3", "D4", "G4", "A4", "F4"]; 
-
-
 
 const notes = ["F#4", "E4", "C#4", "A4", "A2", "C4", "D4", "E2", "G4" ];
 
@@ -92,18 +91,14 @@ Tone.Transport.bpm.value = 120;
 document.addEventListener("DOMContentLoaded", function() {
   const pixelToggleButton = document.getElementById('pixel-toggle-button');
   pixelToggleButton.addEventListener('click', () => {
-    console.log("prev", showGrid);;
-    showGrid = !showGrid;
-    console.log("after", showGrid);;
+    pixelMode = !pixelMode;
   });
 });
 
 document.addEventListener("DOMContentLoaded", function() {
   const gridToggleButton = document.getElementById('grid-toggle-button');
   gridToggleButton.addEventListener('click', () => {
-    // console.log("prev", showGrid);;
     showGrid = !showGrid;
-    // console.log("after", showGrid);;
   });
 });
 
@@ -187,7 +182,7 @@ function onSequenceStep(time, column) {
     }
   }
 
-  console.log("note to play", notesToPlay);
+  console.log(column, "note to play", notesToPlay);
 
   // data.forEach((row, rowIndex) => {
   //   // See if the note is "on"
@@ -250,7 +245,10 @@ var colorPallete = [
   // "#000000"
 ]
 var brushColor = colorPallete[8];
+var brushStrokeArray = [ 0.5, 0.7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 20, 26, 32, 42, 56, 72, 86, 100, 126, 156, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 2000 ];
+var brushStrokeIndex = 11;
 var isEraser = false;
+
 var palleteArray = [];
 function initialize_color_pallete(item, index, arr) {
   // console.log("index:",index);
@@ -342,8 +340,10 @@ async function setup() {
 
 function draw() {
   // render color
-  for(let i = 0; i < colorArray.length; i++) {
-    colorArray[i].draw();
+  if (pixelMode) {
+    for(let i = 0; i < colorArray.length; i++) {
+      colorArray[i].draw();
+    }
   }
   // render pallete
   for(let i = 0; i < palleteArray.length; i++) {
@@ -383,6 +383,7 @@ function mousePressed() {
     for(let i = 0; i < palleteArray.length; i++) {
       if (palleteArray[i].isInside()) {
         brushColor = palleteArray[i].getColor();
+        palleteArray[i].musicOnClick();
         console.log("color:", brushColor);
       }
     }
@@ -431,9 +432,7 @@ function mouseDragged() {
   );
   if (!isInsidePallete) {
     if (!isEraser) {
-      // console.log("drawing w/", brushColor, "at size", brushStrokeArray[brushStrokeIndex]);
-      // paintBrush(brushColor);
-
+      console.log("drawing w/", brushColor);
       // console.log("else", colorArray.length);
       for (let i = 0; i < colorArray.length; i++) {
         // console.log(colorArray[i]);
@@ -442,6 +441,9 @@ function mouseDragged() {
           colorArray[i].changeColor(brushColor);
           // renderColor();
         }
+      }
+      if (!pixelMode) {
+        paintBrush(brushColor);
       }
     }
     else {
@@ -453,7 +455,10 @@ function mouseDragged() {
           colorArray[i].changeColor(canvasColor);
         }
       }
-      // paintBrush(canvasColor);
+      if (!pixelMode) {
+        paintBrush(canvasColor);
+      }
+
     }
   }
 }
@@ -530,6 +535,10 @@ class PalleteSquare {
     // console.log("y:", isInsideY);
     return (isInsideX && isInsideY);
   }
+  musicOnClick() {
+    console.log(this.y / TILE_LENGTH);
+    synth.triggerAttackRelease(notes[this.y / TILE_LENGTH], '16n')
+  }
 }
 
 ///////////////////////////////////////////////////////////////
@@ -552,18 +561,19 @@ function keyTyped() {
 }
 
 ///////////////////////////////////////////////////////////////
-// function paintBrush(color) {
-//   push();
-//   stroke(color);
-//   strokeWeight(brushStrokeArray[brushStrokeIndex]);
-//   line(pmouseX, pmouseY, mouseX, mouseY);
-//   pop();
-// }
-// function clickPaintBrush(color) {
-//   push();
-//   noStroke();
-//   fill(color);
-//   circle(mouseX, mouseY, brushStrokeArray[brushStrokeIndex]);
-//   pop();
-// }
+function paintBrush(color) {
+  // console.log(color);
+  push();
+  stroke(color);
+  strokeWeight(brushStrokeArray[brushStrokeIndex]);
+  line(pmouseX, pmouseY, mouseX, mouseY);
+  pop();
+}
+function clickPaintBrush(color) {
+  push();
+  noStroke();
+  fill(color);
+  circle(mouseX, mouseY, brushStrokeArray[brushStrokeIndex]);
+  pop();
+}
 ///////////////////////////////////////////////////////////////
