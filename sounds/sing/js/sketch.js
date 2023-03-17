@@ -1,48 +1,13 @@
 //Canvas properties:
 let TILE_LENGTH = 24;
 let CANVAS_WIDTH_SCALING = 32;
-let CANVAS_HEIGHT_SCALING = 9;
-// let CANVAS_WIDTH_SCALING = 8;
-// let CANVAS_HEIGHT_SCALING = 6;
+// let CANVAS_HEIGHT_SCALING = 9;
 let canvasColor = "#080808";
 
 let gridArray = [];
 let showGrid = true;
 let pixelMode = true;
 
-/*
-every color has a melody, instrument, and complement
-logic:
-Big color is melody
-if 2big color is > big/2, instrument is color
-if other color is > 20%, complement
-
-Mapping:
-pink - sweet melody, synth2, snare?
-red - chaotic, metal synth, hammer
-orange - red but no echo, 
-yellow - happy, marimba, snare
-light-green - mellow happy, ???, snare
-blue - robotic
-lavender - calm, marimba, subtle jazz melody
-purple - void
-
-
-Note:
-share melody group *same melody diff instrument)
-pink-red-orange
-yellow-light green- green
-cyan-blue-lavender-purple
-
-Instrument set so far
-Marimba - good, upbeat
-
-Echo hammer / bell - good complement, first note is always loud???
-Hammer - complement, bad hammer
-kickDrum - complement
-*/
-
-// Master volume in decior audio
 let volume = -12;
 let synth // The synth that plays notes
 
@@ -55,8 +20,6 @@ let sequence;
 // The currently playing column
 let currentColumn = 0;
 
-// Here is the fixed scale we will use
-// Also can try other scales/notes
 // const notes = ["F#4", "E4", "C#4", "A4"];
 // const notes = ["A3", "C4", "D4", "E3", "G4"];
 // const notes = ['A3', 'C4', 'D4', 'E4', 'G4', 'A4'];
@@ -67,7 +30,7 @@ const notes = ["F#4", "E4", "C#4", "A4", "A2", "C4", "D4", "E2", "G4" ];
 
 
 // Number of rows is the number of different notes
-const numRows = notes.length;
+const CANVAS_HEIGHT_SCALING = notes.length;
 
 // Number of columns is depending on how many notes to play in a measure
 const numCols = CANVAS_WIDTH_SCALING;
@@ -75,18 +38,6 @@ const noteInterval = `${numCols}n`;
 
 // Setup audio config
 Tone.Transport.bpm.value = 120;
-
-// Create a Row*Col data structure that has nested arrays
-// [ [ 0, 0, 0 ], [ 0, 0, 0 ], ... ]
-// The data can be 0 (off) or 1 (on)
-// const data = [];
-// for (let y = 0; y < numRows; y++) {
-//   const row = [];
-//   for (let x = 0; x < numCols; x++) {
-//     row.push(0);
-//   }
-//   data.push(row);
-// }
 
 document.addEventListener("DOMContentLoaded", function() {
   const pixelToggleButton = document.getElementById('pixel-toggle-button');
@@ -137,28 +88,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-// ----------------------------------------------------------
-// // Here we randomize the sequencer with some data
-// function randomizeSequencer() {
-//   // Choose a % chance so that sometimes it is more busy, other times more sparse
-//   const chance = random(0.5, 1.5);
-//   for (let y = 0; y < gridArray.length; y++) {
-//     // Loop through and create some random on/off values
-//     // const row = data[y];
-//     for (let x = 0; x < gridArray[0].length; x++) {
-//       gridArray[y][x] = randomGaussian() > chance ? 1 : 0;
-//     }
-//     // Loop through again and make sure we don't have two
-//     // consectutive on values (it sounds bad)
-//     for (let x = 0; x < gridArray[0].length - 1; x++) {
-//       if (gridArray[y][x] === 1 && gridArray[y][x + 1] === 1) {
-//         gridArray[y][x + 1] = 0;
-//         x++;
-//       }
-//     }
-//   }
-// }
-
 // Here is where we actually play the audi
 function onSequenceStep(time, column) {
   // We build up a list of notes, which will equal
@@ -184,18 +113,7 @@ function onSequenceStep(time, column) {
 
   console.log(column, "note to play", notesToPlay);
 
-  // data.forEach((row, rowIndex) => {
-  //   // See if the note is "on"
-  //   // const isOn = row[column] == 1;
-  //   const isOn = row[column] == 1;
-  //   // If its on, add it to the list of notes to play
-  //   if (isOn) {
-  //     const note = notes[rowIndex];
-  //     notesToPlay.push(note);
-  //   }
-  // });
-
-  // Trigger a note
+// Trigger a note
   const velocity = random(0.5, 1);
   synth.triggerAttackRelease(notesToPlay, noteInterval, time, velocity);
   // Tone.Draw.schedule(function () {
@@ -213,10 +131,6 @@ function newArray(n) {
   return array;
 }
 
-
-///////////////////////////////////////////////////////////////////////////
-// create synth
-
 /////////////////////////////////////////////////////////////////
 var marimba = new Tone.Synth().toMaster();
 var synthJSON2 = {
@@ -226,10 +140,7 @@ var synthJSON2 = {
 };
 marimba.set(synthJSON2);
 
-
 ///////////////////////////////////////////////////////////////////////////
-
-
 var colorPallete = [
   // "#ff7eb6",
   "#E95678",
@@ -246,7 +157,7 @@ var colorPallete = [
 ]
 var brushColor = colorPallete[8];
 var brushStrokeArray = [ 0.5, 0.7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 20, 26, 32, 42, 56, 72, 86, 100, 126, 156, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 2000 ];
-var brushStrokeIndex = 11;
+var brushStrokeIndex = 12;
 var isEraser = false;
 
 var palleteArray = [];
@@ -254,6 +165,7 @@ function initialize_color_pallete(item, index, arr) {
   // console.log("index:",index);
   // console.log("color:",item);
   // console.log("array length:", palleteArray.length);
+  // console.log(arr);
   palleteArray.push(
     new PalleteSquare(initialX, initialY + index * initialSize, initialSize, item)
   );
@@ -270,7 +182,6 @@ var colorArray = [];
 ///////////////////////////////////////////////////////////////
 async function setup() {
   createCanvas(TILE_LENGTH * CANVAS_WIDTH_SCALING, TILE_LENGTH * CANVAS_HEIGHT_SCALING);
-  // createCanvas(canvasWidth, canvasHeight);
   colorPallete.forEach(initialize_color_pallete)
 
   background(canvasColor);
@@ -299,7 +210,7 @@ async function setup() {
   // Setup a synth with ToneJS
   // We use a poly synth which can hold up to numRows voices
   // Then we will play each note on a different voice
-  synth = new Tone.PolySynth({CANVAS_HEIGHT_SCALING}, Tone.DuoSynth);   
+  synth = new Tone.PolySynth({CANVAS_HEIGHT_SCALING}, Tone.DuoSynth);
 
   // Setup the synths a little bit
   synth.set({
@@ -330,26 +241,19 @@ async function setup() {
   synth.connect(Tone.Master);  // Master renamed Destination v14.7.x
   effect.connect(reverb);
   reverb.connect(Tone.Master);
-
-  // Every two measures, we randomize the notes
-  // We use Transport to schedule timer since it has to be exactly in sync with the audio
-  // Tone.Transport.scheduleRepeat(() => {
-  //   randomizeSequencer();
-  // }, "2m");
 }
 
 function draw() {
-  // render color
+  // render pallete
+  for(let i = 0; i < palleteArray.length; i++) {
+    palleteArray[i].draw();
+  }
+  // render color square if pixel
   if (pixelMode) {
     for(let i = 0; i < colorArray.length; i++) {
       colorArray[i].draw();
     }
   }
-  // render pallete
-  for(let i = 0; i < palleteArray.length; i++) {
-    palleteArray[i].draw();
-  }
-
 }
 
 ///////////////////////////////////////////////////////////////
@@ -368,7 +272,6 @@ function initialize_grid() {
 }
 
 ///////////////////////////////////////////////////////////////
-
 function mousePressed() {
   console.log("pressed");
   let isInsidePallete = (
@@ -389,7 +292,6 @@ function mousePressed() {
     }
   }
   else if (isEraser){
-    // clickPaintBrush(canvasColor);
     for (let i = 0; i < colorArray.length; i++) {
       // console.log(colorArray[i]);
       if (colorArray[i].isInside()) {
@@ -397,9 +299,11 @@ function mousePressed() {
         colorArray[i].changeColor(canvasColor);
       }
     }
+    if (!pixelMode) {
+      clickPaintBrush(canvasColor);
+    }
   }
   else {
-    // console.log("else", colorArray.length);
     for (let i = 0; i < colorArray.length; i++) {
       // console.log(colorArray[i]);
       // if (colorArray[i].isInside()) {
@@ -408,19 +312,10 @@ function mousePressed() {
         colorArray[i].changeColor(brushColor);
       }
     }
-    // clickPaintBrush(brushColor);
+    if (!pixelMode) {
+      clickPaintBrush(brushColor);
+    }
   }
-}
-
-// TODO: mouse pressed Tone.transport.start
-// TODO: mouse released Tone.transport.stop
-// depending ont the selected color, play different melody and/or instruments
-// TODO: clicking on pallete square also play a sound
-// MAYBE: count amount of tile and change sound
-// TODO: Recalculate when mouse is released
-
-function mouseReleased() {
-
 }
 
 function mouseDragged() {
@@ -458,7 +353,6 @@ function mouseDragged() {
       if (!pixelMode) {
         paintBrush(canvasColor);
       }
-
     }
   }
 }
@@ -535,6 +429,7 @@ class PalleteSquare {
     // console.log("y:", isInsideY);
     return (isInsideX && isInsideY);
   }
+  // NOTE: this may be misleading as color does not matter to the sound as of now
   musicOnClick() {
     console.log(this.y / TILE_LENGTH);
     synth.triggerAttackRelease(notes[this.y / TILE_LENGTH], '16n')
@@ -576,4 +471,5 @@ function clickPaintBrush(color) {
   circle(mouseX, mouseY, brushStrokeArray[brushStrokeIndex]);
   pop();
 }
+
 ///////////////////////////////////////////////////////////////
