@@ -33,7 +33,8 @@
       - [X] word class for noun, verb, adj, and simple objects (only wobble sprites)
   - [X] bug squish
 - [ ] sounds
-  - [ ] sampler
-  - [ ] synths and sequencers
-  - [ ] sound synthesis & SFX
-  - [ ] p5 sing
+  - [X] sampler
+  - [X] synths and sequencers
+  - [X] sound synthesis & SFX
+  - [X] p5 sing
+    - [ ] :sparkles: color -> change in sound/instrument?
