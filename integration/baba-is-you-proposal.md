@@ -1,5 +1,11 @@
 # Integration Project
-BABA AND CODE IS PAINT
+
+## BABA AND CODE IS PAINT
+
+<p align="center">
+  <img title="" src="./assets/baba_is_paint.png" width="900">
+</p>
+
 ## Overview
 
 For the integration project, I want to make an ~~gimmicky~~ improved Paint App (grid).
@@ -25,6 +31,9 @@ Use wasd to move the initial BABA location around. After that, you can control a
 ### CODE CONTROL (likely)
 There will be a region where the player can write their code and run by pressing a button.
 Maybe add vim editing or let user upload a text file.
+
+### MONO MODE (default likely)
+Player only control one BABA but can switch the color of the BABA
 
 Example code:
 ```js
