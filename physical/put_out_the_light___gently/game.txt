@@ -1,0 +1,17 @@
+How to play / Interaction:
+Put your finger over the photoresistor. Try to stop when the yellow LED lights up. Press the button to reset (wait 3s).
+
+Game objective:
+Try to time it to get the higher score than the other person (use the interpretation below).
+
+Challenge:
+Timing is difficult.
+
+Scenario Score Interpretation (highest to lowest):
+yellow LED lights up without the red LED lights up (very difficult)
+Both yellow and red light up
+Only green light up (hold too little)
+All LED are out (hold too long)
+
+Note:
+Recommend to not play this in somewhere extremely dim or bright as it will be more difficult or borderline impossible to interact with the photoresistor.

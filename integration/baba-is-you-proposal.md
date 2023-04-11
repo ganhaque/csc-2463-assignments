@@ -42,6 +42,9 @@ spawn 0 0 // spawn a baba at the top left of the canvas with the selected color
 spawn 0 max red // spawn a baba at the bottom left of the canvas with the color red
 mov 0 0 to 1 1 // if BABA is at 0,0 ->
                //move from 0,0 to 0,3, coloring 0,1 0,2 and 0,3 with the BABA's color
+mov down 1 // move down 1
+mov right max // move right until the edge of the canvas
+mov up color // move left until there is a color tile in front
 del 1 1 // remove BABA at 1, 1
 // if mov is diagonal, and dx == dy, only color the diagonal squares
 // else, move dy then move dx (two straight lines)
