@@ -18,6 +18,8 @@ function mousePressed() {
         console.log("red:", colorPaletteRGB[brushColorIndex][0]);
         console.log("green:", colorPaletteRGB[brushColorIndex][1]);
         console.log("blue:", colorPaletteRGB[brushColorIndex][2]);
+        updateArduinoLED();
+
       }
     }
   }

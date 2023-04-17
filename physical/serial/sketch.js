@@ -45,7 +45,6 @@ var brushColorIndex = 8;
 var brushColor = colorPallete[brushColorIndex];
 var isEraser = false;
 
-let activationState = { active: false };
 
 let cargo = {
   active: false,
@@ -78,9 +77,11 @@ function setup() {
 
   initialize_grid();
 
+  
+
 
   // if ("serial" in navigator) {
-  // The Web Serial API is supported.
+  // // The Web Serial API is supported.
   // let button = createButton("connect");
   // button.position(0,0);
   // button.mousePressed(connect);
@@ -104,8 +105,16 @@ function draw() {
   }
 
   if (reader) {
+    // console.log("reader is available");
     serialRead();
   }
+  
+
+  
+  // if (writer) {
+    // serialWrite(cargo);
+    // console.log(cargo);
+  // }
 
   // if (activationState.active) {
   // text("cm: " + sensorData.cm, 10, 100);
@@ -118,18 +127,31 @@ function draw() {
 // write to arduino in json
 function serialWrite(jsonObject) {
   if (writer) {
+    // console.log("writer", jsonObject);
+    // console.log(JSON.stringify(jsonObject)+"\n");
     writer.write(encoder.encode(JSON.stringify(jsonObject)+"\n"));
+  }
+}
+
+function keyTyped() {
+  if (key === 'a') {
+    // activationState.active = !activationState.active;
+    serialWrite(cargo);
   }
 }
 
 // read from arduino
 async function serialRead() {
   while(true) {
+    // console.log("call serial read");
     const { value, done } = await reader.read();
+
     if (done) {
+      console.log("done");
       reader.releaseLock();
       break;
     }
+    // console.log("read");
     console.log(value);
     sensorData = JSON.parse(value);
     if (sensorData.next) {
@@ -139,6 +161,7 @@ async function serialRead() {
 }
 
 async function connect() {
+  console.log("connect call");
   port = await navigator.serial.requestPort();
 
   await port.open({ baudRate: 9600 });
@@ -149,6 +172,7 @@ async function connect() {
     .pipeThrough(new TextDecoderStream())
     .pipeThrough(new TransformStream(new LineBreakTransformer()))
     .getReader();
+  console.log("Reader is", reader);
 }
 
 class LineBreakTransformer {

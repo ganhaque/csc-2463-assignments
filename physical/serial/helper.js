@@ -27,5 +27,13 @@ function nextColor() {
   brushColorIndex = (brushColorIndex + 1) % colorPallete.length;
   brushColor = colorPallete[brushColorIndex];
   console.log("new color is", colorPallete[brushColorIndex]);
+  updateArduinoLED();
+  // serialWrite(cargo);
 }
 
+function updateArduinoLED() {
+  cargo.red = colorPaletteRGB[brushColorIndex][0];
+  cargo.green = colorPaletteRGB[brushColorIndex][1];
+  cargo.blue = colorPaletteRGB[brushColorIndex][2];
+  serialWrite(cargo);
+}
