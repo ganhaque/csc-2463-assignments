@@ -1,0 +1,155 @@
+:root {
+  --base00: 16, 19, 23;
+  --base01: 26, 29, 33;
+  --base02: 35, 38, 42;
+  --base03: 43, 46, 50;
+  --base04: 50, 53, 57;
+  --base05: 242, 244, 248;
+  --base06: 255, 255, 255;
+  --base07: 212, 212, 213;
+  --base08: 120, 169, 255;
+  --base09: 250, 183, 149;
+  --base0A: 233, 86, 120;
+  --base0B: 186, 232, 129;
+  --base0C: 89, 225, 227;
+  --base0D: 46, 230, 166;
+  --base0E: 190, 149, 255;
+  --base0F: 164, 200, 222;
+  --white: 255, 255, 255;
+  --darker_black: 10, 13, 17;
+  --black: 16, 19, 23;
+  --black2: 25, 29, 34;
+  --one_bg: 33, 36, 40;
+  --one_bg2: 41, 44, 48;
+  --one_bg3: 51, 54, 58;
+  --grey: 62, 65, 69;
+  --grey_fg: 69, 72, 76;
+  --grey_fg2: 74, 77, 81;
+  --light_grey: 82, 85, 89;
+  --red: 233, 86, 120;
+  --baby_pink: 248, 101, 135;
+  --pink: 255, 126, 182;
+  --catppuccin_flamingo: 242, 205, 205;
+  --catppuccin_maroon: 235, 160, 172;
+  --horizon_orange: 240, 147, 131;
+  --orange: 255, 158, 100;
+  --yellow: 246, 202, 107;
+  --sun: 235, 203, 139;
+  --catppuccin_green: 171, 233, 179;
+  --light_green: 186, 232, 129;
+  --green: 66, 190, 101;
+  --vibrant_green: 46, 230, 166;
+  --teal: 26, 188, 156;
+  --green_cyan: 37, 178, 188;
+  --cyan: 24, 184, 217;
+  --pale_blue: 164, 200, 222;
+  --light_blue: 125, 207, 255;
+  --blue: 120, 169, 255;
+  --nord_blue: 107, 156, 242;
+  --purple: 190, 149, 255;
+  --dark_purple: 157, 124, 216;
+  --catppuccin_lavender: 180, 190, 254;
+  --statusline_bg: 29, 30, 41;
+  --lightbg: 50, 51, 62;
+  --pmenu_bg: 59, 219, 162;
+  --folder_bg: 120, 169, 255;
+}
+
+@font-face {
+  font-family: SF;
+  src:url("./fonts/SF-Mono-Nerd-Font/SFMono\ Regular\ Nerd\ Font\ Complete.otf");
+}
+@font-face {
+  font-family: cozette;
+  src:url("./fonts/CozetteVector.ttf");
+}
+@font-face {
+  font-family: terminus;
+  src:url("./fonts/Terminus.ttf");
+}
+
+/* ---------------------------------------------- */
+
+/* body:before { */
+/*   content:""; */
+/*   position:fixed; */
+/*   left:0; */
+/*   top:0; */
+/*   width:100%; */
+/*   height:100%; */
+/*   pointer-events:none; */
+/*   z-index:1000; */
+/*   background-image:url(./assets/overlay.png); */
+/*   background-repeat:all; */
+/*   background-position:0 0; */
+/*   animation-name:Static; */
+/*   animation-duration:2s; */
+/*   animation-iteration-count:infinite; */
+/*   animation-timing-function:steps(4); */
+/*   box-shadow:inset 0 0 10em rgb(0 0 0/40%) */
+/* } */
+/* body:after { */
+/*   content:""; */
+/*   position:fixed; */
+/*   left:0; */
+/*   top:0; */
+/*   opacity:.0; */
+/*   width:100%; */
+/*   height:100%; */
+/*   pointer-events:none; */
+/*   z-index:1000; */
+/*   background-image:url(./assets/overlay2.png); */
+/*   background-repeat:all; */
+/*   background-position:0 0; */
+/*   animation-name:Static; */
+/*   animation-duration:.8s; */
+/*   animation-iteration-count:infinite; */
+/*   animation-timing-function:steps(4) */
+/* } */
+
+body {
+  /* height: 100%; */
+  height: calc(100vh - 2rem);
+  background-color: rgba(var(--darker_black), 1);
+  /* background-image:url(./assets/bg.png); */
+  background-position: 50% 0;
+}
+
+@keyframes Static {
+  0% {
+    background-position:0 0
+  }
+  100% {
+    background-position:0 4px
+  }
+}
+
+
+main {
+  margin: 0;
+  height: 80%;
+  /* padding: 0; */
+  display: flex;
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+}
+
+/* canvas { */
+/*   display: block; */
+/* } */
+
+#spawn-counter {
+  display: inline;
+}
+
+#button-div {
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
