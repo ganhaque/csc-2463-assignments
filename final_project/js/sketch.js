@@ -115,7 +115,7 @@ let scoreData = { score: 0, highScore: 0 };
 // mode:
 // baba-paint: basic paint application
 // ink-game: splatoon-like game w/ dum enemies & allies
-let gameData = { timePerLevel: 10, elapsedTime: 0, enemyAmount: 27, allyAmount: 2, mode: 'baba-paint' };
+let gameData = { timePerLevel: 24, elapsedTime: 0, enemyAmount: 27, allyAmount: 2, mode: 'baba-paint' };
 
 function preload() {
   spriteSheet = loadImage("../assets/gameplay_sprites.png");
@@ -201,6 +201,9 @@ async function setup() {
   Tone.Transport.scheduleRepeat(() => {
     randomizeSequencer(mapCounterToChance(countGrid()));
   }, "2m");
+
+  Tone.start();
+  togglePlay();
 }
 
 function draw() {
