@@ -113,6 +113,13 @@ body {
   background-color: rgba(var(--darker_black), 1);
   /* background-image:url(./assets/bg.png); */
   background-position: 50% 0;
+  color: rgba(var(--base06), 1);
+  font-family: terminus;
+  font-size: 1.6rem;
+}
+
+p {
+  margin: 0;
 }
 
 @keyframes Static {
@@ -127,11 +134,13 @@ body {
 
 main {
   margin: 0;
-  height: 80%;
+  /* height: calc(100vh - 8rem); */
   /* padding: 0; */
   display: flex;
   /* This centers our sketch horizontally. */
   justify-content: center;
+  /* flex-grow: 1; */
+  flex-shrink: 2;
 
   /* This centers our sketch vertically. */
   align-items: center;
@@ -150,6 +159,57 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* margin-bottom: 1rem; */
+}
+
+button {
+  font-family : inherit;
+  font-size: 1rem;
+}
+
+#data-div {
+  height: 2rem;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  /* margin-top: 2rem; */
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+#big-box {
+  height: calc(100vh - 8px);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+#leaderboard {
+  color: rgba(var(--darker_black), 1);
+}
+
+#leaderboard-header {
+  color: rgba(var(--base06), 1);
+  margin-bottom: 1rem;
+}
+
+#game-setting {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+#game-setting > div {
+  display: flex;
+}
+
+#diff-text {
+}
+
+.counter-text {
+  flex-grow: 1;
 }
 
 

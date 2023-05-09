@@ -19,7 +19,7 @@ let currentColumn = 0;
 let currentScaleIndex = 0;
 // const notes = ["F#4", "E4", "C#4", "A4"];
 // const notes = ["A3", "C4", "D4", "E3", "G4"];
-const notes = ['A3', 'C4', 'D4', 'E4', 'G4', 'A4'];
+let notes = ['A3', 'C4', 'D4', 'E4', 'G4', 'A4'];
 // const notes = [ "A4", "D3", "E3", "G4", 'F#4' ];
 // const notes = ["C5", "A3", "D4", "G4", "A4", "F4"];
 

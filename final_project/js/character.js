@@ -155,24 +155,24 @@ class Character {
       this.holdKeyCounter += 0.2;
       // console.log("HODL:", this.holdKeyCounter);
     }
-    if(frameCount % 3 === 0 && this.holdKeyCounter > this.holdKeyDelay) {
-      if(keyIsDown(RIGHT_ARROW)) {
-        // console.log("proc");
-        this.rightMovement();
-      }
-      else if (keyIsDown(LEFT_ARROW)) {
-        // console.log("proc");
-        this.leftMovement();
-      }
-      else if (keyIsDown(UP_ARROW)) {
-        // console.log("proc");
-        this.upMovement();
-      }
-      else if (keyIsDown(DOWN_ARROW)) {
-        // console.log("proc");
-        this.downMovement();
-      }
-    }
+    // if(frameCount % 3 === 0 && this.holdKeyCounter > this.holdKeyDelay) {
+    //   if(keyIsDown(RIGHT_ARROW)) {
+    //     // console.log("proc");
+    //     this.rightMovement();
+    //   }
+    //   else if (keyIsDown(LEFT_ARROW)) {
+    //     // console.log("proc");
+    //     this.leftMovement();
+    //   }
+    //   else if (keyIsDown(UP_ARROW)) {
+    //     // console.log("proc");
+    //     this.upMovement();
+    //   }
+    //   else if (keyIsDown(DOWN_ARROW)) {
+    //     // console.log("proc");
+    //     this.downMovement();
+    //   }
+    // }
 
     if(!this.sleepIsForTheWeak) {
       if(frameCount % 24 === 0) {
@@ -708,7 +708,7 @@ class Enemy {
       this.color = color;
     }
     switch (characterID) {
-      case 1: // ally
+      case 4: // ally
         this.spriteXCoordinate = 0;
         this.spriteYCoordinate = 0;
         break;

@@ -23,6 +23,9 @@ function keyTyped() {
         isEraser = true;
       }
       break;
+    case 's':
+      startInkGame();
+      break;
     case 'q':
       prevColor();
       break;

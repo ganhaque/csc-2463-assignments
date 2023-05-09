@@ -67,20 +67,17 @@ function countGrid() {
 }
 
 function countColorGrid() {
-  let counter = 0;
+  // let counterArray = [];
+  let counterArray = new Array(colorPallete.length).fill(0);
 
-  // TODO: DO THIS
-  // for(let i = 0; i < gridArray.length; i++) {
-  //   // console.log("i is", i);
-  //   for(let j = 0; j < gridArray[i].length; j++) {
   for (let i = 0; i < gridArray2.length; i++) {
     for (let j = 1; j < gridArray2[i].length; j++) {
       if (gridArray2[i][j] != 0) {
-        counter += 1;
+        counterArray[gridArray2[i][j] - 1] += 1;
       }
     }
   }
-  return counter;
+  return counterArray;
 }
 
 function mapCounterToChance(counter) {
@@ -167,7 +164,7 @@ function spawnAlly() {
           TILE_LENGTH, TILE_LENGTH, //size
           5, //animation length
           3, //variation amount
-          1, //character ID
+          4, //character ID
           colorPallete[brushColorIndex]
         )
         )
@@ -180,3 +177,84 @@ function spawnAlly() {
     counter.innerHTML = spawnCount;
   });
 }
+
+function startInkGame() {
+  console.log('start ink game');
+  gameData.mode = 'ink-game';
+  // reset the color square
+  gridArray2 = [];
+  for(let i = 0; i <= CANVAS_HEIGHT_SCALING; i++) {
+    gridArray2.push(new Array(CANVAS_WIDTH_SCALING).fill(0));
+    // console.log("curren array[i][j] = ", gridArray[i]);
+  }
+  initialize_grid();
+  // for (let i = 0; i < gridArray2.length; i++) {
+  //   for (let j = 0; j < gridArray2[i].length; j++) {
+  //     gridArray2[i][j] = 0;
+  //   }
+  // }
+  console.log(gridArray2);
+
+  gameData.elapsedTime = 0;
+  scoreData.score = 0;
+  // console.log("score", gameData.score);
+  // gameData.amountOfBug = random(12, 30);
+  // gameData.amountOfBug = 1;
+
+  for(let i = 0; i < gameData.enemyAmount; i++) {
+    spawnEnemy();
+  }
+  for(let i = 0; i < gameData.allyAmount; i++) {
+    spawnAlly();
+  }
+
+  // change music
+  // notes = ["A3", "C4", "D4", "E3", "G4"];
+  // notes = [ "A4", "D3", "E3", "G4", 'F#4' ];
+  notes = ["C5", "A3", "D4", "G4", "A4", "F4"];
+
+  leaderboardDiv.innerHTML = '';
+}
+
+function finishhInkGame() {
+  gameData.mode = 'baba-paint';
+  // gridArray = [];
+
+  // reset characters
+  for (let i = 0; i < gridArray.length; i++) {
+    for (let j = 1; j < gridArray[i].length; j++) {
+      if (gridArray[i][j] !== 1) {
+        gridArray[i][j] = 0;
+      }
+    }
+  }
+  enemyArray = [];
+
+  notes = ['A3', 'C4', 'D4', 'E4', 'G4', 'A4'];
+
+  timerDiv.innerHTML = '';
+  let colorCounterArray = countColorGrid();
+
+  // First, create an array of objects to store both the color and its count
+  const colorCounts = colorPallete.map((color, index) => ({ color, count: colorCounterArray[index] }));
+
+  // Then, sort the array based on the count in descending order
+  colorCounts.sort((a, b) => b.count - a.count);
+
+  const leaderboardHeader = document.createElement('h2');
+  leaderboardHeader.textContent = "Leaderboard";
+  leaderboardHeader.id = "leaderboard-header";
+  leaderboardDiv.appendChild(leaderboardHeader);
+
+  // Finally, loop through the sorted array and create <p> elements with the colors and counts
+  for (let i = 0; i < colorCounts.length; i++) {
+    const { color, count } = colorCounts[i];
+    if (count != 0) {
+      const p = document.createElement('p');
+      p.textContent = `${color}: ${count}`;
+      p.style.backgroundColor = color;
+      leaderboardDiv.appendChild(p);
+    }
+  }
+}
+

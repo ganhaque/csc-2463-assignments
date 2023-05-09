@@ -15,19 +15,56 @@
   </head>
 
   <body>
-    <div id="button-div">
-    <button id='connect-button'>Connect to Arduino</button>
-    <button id='start-button'>Unmute</button>
-    <button id='spawn-button'>Spawn
-      <div id='spawn-counter'></div>
-      enemy (f)</button>
-    <button id='spawn-ally-button'>Spawn
-      <div id='spawn-counter'></div>
-      ally (a)</button>
-    <button id='decrease-count-button'>Decrease count (r)</button>
-    <button id='increase-count-button'>Increase count (t)</button>
-    <!-- <br> -->
-    <button id='debug'>debug</button>
+    <div id="big-box">
+      <div id="button-div">
+        <button id='connect-button'>Connect to Arduino</button>
+        <button id='play-stop-button'>Unmute</button>
+        <button id='start-ink-game-button'>Start Ink Game (s)</button>
+        <!-- <button id='spawn-ally-button'>Spawn -->
+        <!--   <div id='spawn-counter'></div> -->
+        <!--   ally (a)</button> -->
+        <!-- <button id='spawn-button'>Spawn -->
+        <!--   <div id='spawn-counter'></div> -->
+        <!--   enemy (f)</button> -->
+        <!-- <button id='decrease-count-button'>Decrease count (r)</button> -->
+        <!-- <button id='increase-count-button'>Increase count (t)</button> -->
+        <!-- <br> -->
+        <!-- <button id='debug'>debug</button> -->
+      </div>
+
+      <main>
+      </main>
+
+
+      <div id="data-div">
+        <div id="game-setting">
+          <div class="" id="diff">
+            <p id="diff-text">
+              Difficulty:
+              &nbsp;
+            </p>
+            <button id='easy-diff'>Easy</button>
+            <button id='crowd-diff'>Crowd</button>
+            <button id='normal-diff'>Normal</button>
+            <button id='hard-diff'>Hard</button>
+            <button id='impossible-diff'>Impossible</button>
+          </div>
+          <div class="" id="enemy-count-div">
+          </div>
+          <div class="" id="ally-count-div">
+          </div>
+          <div class="" id="time-per-level-div">
+          </div>
+        </div>
+        <p id="timer">
+        </p>
+        <div id="leaderboard">
+        </div>
+        <!-- <div id="score-div"> -->
+        <!-- </div> -->
+        <!-- <div id="highscore-div"> -->
+        <!-- </div> -->
+      </div>
     </div>
     <!-- <button id='grid-toggle-button'>Toggle Grid</button> -->
     <!-- <button id='pixel-toggle-button'>Pixel?</button> -->
@@ -41,5 +78,6 @@
     <script src="js/helper.js"></script>
     <script src="js/button.js"></script>
     <script src="js/binding.js"></script>
+    <script src="js/data.js"></script>
   </body>
 </html>

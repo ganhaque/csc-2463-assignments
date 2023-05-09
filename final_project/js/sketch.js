@@ -107,6 +107,16 @@ var initialSize = TILE_LENGTH;
 // NOTE: unused, unless want to spawn enemy at the start (dev only)
 let enemyAmount = 3;
 
+// TODO:
+
+let scoreData = { score: 0, highScore: 0 };
+// let gameData = { timePerLevel: 10, elapsedTime: 0, amountOfBug: 16, state: GAME_STATE.StartingScreen };
+
+// mode:
+// baba-paint: basic paint application
+// ink-game: splatoon-like game w/ dum enemies & allies
+let gameData = { timePerLevel: 10, elapsedTime: 0, enemyAmount: 27, allyAmount: 2, mode: 'baba-paint' };
+
 function preload() {
   spriteSheet = loadImage("../assets/gameplay_sprites.png");
 }
@@ -191,34 +201,34 @@ async function setup() {
   Tone.Transport.scheduleRepeat(() => {
     randomizeSequencer(mapCounterToChance(countGrid()));
   }, "2m");
-
-  // if ("serial" in navigator) {
-  // // The Web Serial API is supported.
-  // let button = createButton("connect");
-  // button.position(0,0);
-  // button.mousePressed(connect);
-  // }
 }
 
 function draw() {
-  // background(220);
-  // console.log((CANVAS_WIDTH_SCALING - 1) * (CANVAS_HEIGHT_SCALING + 1));
-  // console.log(countGrid());
-  if (countGrid() >= ((CANVAS_WIDTH_SCALING - 1) * (CANVAS_HEIGHT_SCALING))) {
-    console.log("all square are filled");
+  if (gameData.mode === 'ink-game') {
+    let currentTime = gameData.timePerLevel - gameData.elapsedTime;
+    gameData.elapsedTime += deltaTime / 1000;
+    // console.log(gameData.elapsedTime);
+    if (ceil(currentTime) !== timerDiv.innerHTML) {
+      // console.log(ceil(currentTime));
+      timerDiv.innerHTML = "Time remaining: " + ceil(currentTime);
+    }
+
+    let isAllFilled = countGrid() >= ((CANVAS_WIDTH_SCALING - 1) * (CANVAS_HEIGHT_SCALING));
+    let isTimeRunOut = currentTime <= 0;
+    if (isAllFilled || isTimeRunOut) {
+      // console.log("all square are filled");
+      console.log('game done');
+      finishhInkGame();
+    }
   }
 
   // render pallete
   for(let i = 0; i < palleteArray.length; i++) {
     palleteArray[i].draw();
   }
-
-  if (pixelMode) {
-    for(let i = 0; i < colorArray.length; i++) {
-      colorArray[i].draw();
-    }
-  }
-  else {
+  // render color square
+  for(let i = 0; i < colorArray.length; i++) {
+    colorArray[i].draw();
   }
 
   // draw player & enemy
@@ -229,6 +239,7 @@ function draw() {
     enemyArray[i].draw();
   }
 
+  // current color indicator
   let currentColorSquare = new PalleteSquare(initialX, (CANVAS_HEIGHT_SCALING - 1) * TILE_LENGTH, initialSize, colorPallete[brushColorIndex]);
   currentColorSquare.draw();
 
@@ -236,18 +247,6 @@ function draw() {
     // console.log("reader is available");
     serialRead();
   }
-
-
-
-  // if (writer) {
-  // serialWrite(cargo);
-  // console.log(cargo);
-  // }
-
-  // if (activationState.active) {
-  // text("cm: " + sensorData.cm, 10, 100);
-  // text("inches: " + sensorData.inches, 10, 150);
-  // }
 }
 
 //////////////////////////////////////
