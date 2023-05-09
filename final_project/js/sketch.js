@@ -202,8 +202,8 @@ async function setup() {
     randomizeSequencer(mapCounterToChance(countGrid()));
   }, "2m");
 
-  Tone.start();
-  togglePlay();
+  // Tone.start();
+  // togglePlay();
 }
 
 function draw() {
@@ -288,22 +288,22 @@ async function serialRead() {
       nextColor();
     }
 
-    if (sensorData.movement = 'LEFT') {
+    if (sensorData.movement === 'LEFT') {
       for(let i = 0; i < characterArray.length; i++) {
         characterArray[i].leftMovement();
       }
     }
-    if (sensorData.movement = 'RIGHT') {
+    if (sensorData.movement === 'RIGHT') {
       for(let i = 0; i < characterArray.length; i++) {
         characterArray[i].rightMovement();
       }
     }
-    if (sensorData.movement = 'UP') {
+    if (sensorData.movement === 'UP') {
       for(let i = 0; i < characterArray.length; i++) {
         characterArray[i].upMovement();
       }
     }
-    if (sensorData.movement = 'DOWN') {
+    if (sensorData.movement === 'DOWN') {
       for(let i = 0; i < characterArray.length; i++) {
         characterArray[i].downMovement();
       }

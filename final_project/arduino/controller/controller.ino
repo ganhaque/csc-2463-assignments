@@ -14,7 +14,7 @@ String command = "";
 String prevCommand = "";
 
 unsigned long previousMillis = 0;  // variable to store the previous time
-const long interval = 500;        // interval between prints (in milliseconds)
+const long interval = 100;        // interval between prints (in milliseconds)
 
 // int trigPin = 6;
 // int echoPin = 7;
@@ -94,9 +94,11 @@ void loop() {
 
     // check left/right commands
     if (xValue < LEFT_THRESHOLD)
-      command = "LEFT";
-    else if (xValue > RIGHT_THRESHOLD)
+      // command = "LEFT";
       command = "RIGHT";
+    else if (xValue > RIGHT_THRESHOLD)
+      // command = "RIGHT";
+      command = "LEFT";
     // check up/down commands (delete else if want two command at once)
     else if (yValue < UP_THRESHOLD)
       command = "UP";
