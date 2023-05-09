@@ -118,7 +118,7 @@ let scoreData = { score: 0, highScore: 0 };
 let gameData = { timePerLevel: 24, elapsedTime: 0, enemyAmount: 27, allyAmount: 2, mode: 'baba-paint' };
 
 function preload() {
-  spriteSheet = loadImage("../assets/gameplay_sprites.png");
+  spriteSheet = loadImage("./assets/gameplay_sprites.png");
 }
 
 async function setup() {
