@@ -143,6 +143,8 @@ async function setup() {
   // gridArray[11][9] = 2;
   // gridArray[10][12] = 3;
 
+  // gridArray2[3][3] = 2;
+
   renderCharacter();
 
   // for (let i = 0; i < enemyAmount; i++) {

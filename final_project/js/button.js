@@ -28,6 +28,11 @@ document.addEventListener("DOMContentLoaded", function() {
   startInkGameButton.addEventListener('click', startInkGame);
 });
 
+let clearCanvasButton = document.getElementById('clear-button');
+document.addEventListener("DOMContentLoaded", function() {
+  clearCanvasButton.addEventListener('click', clearCanvas);
+});
+
 // document.addEventListener("DOMContentLoaded", function() {
 //   const debug = document.getElementById('debug');
 //   debug.addEventListener('click', function() {

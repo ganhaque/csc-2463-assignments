@@ -67,6 +67,10 @@
   font-family: terminus;
   src:url("./fonts/Terminus.ttf");
 }
+@font-face {
+  font-family: BB;
+  src:url("./fonts/disposabledroid-bb.regular.ttf");
+}
 
 /* ---------------------------------------------- */
 
@@ -114,8 +118,8 @@ body {
   /* background-image:url(./assets/bg.png); */
   background-position: 50% 0;
   color: rgba(var(--base06), 1);
-  font-family: terminus;
-  font-size: 1.6rem;
+  font-family: BB;
+  font-size: 2rem;
 }
 
 p {

@@ -87,7 +87,7 @@ function togglePlay() {
     playing = false;
     sequence.stop();
     Tone.Transport.stop();
-    playStopButton.innerHTML = "Unmute"
+    // playStopButton.innerHTML = "Unmute"
   }
   else {
     // If we aren't currently playing, we can start the sequence
@@ -102,7 +102,7 @@ function togglePlay() {
     sequence.start();
     Tone.Transport.start();
 
-    playStopButton.innerHTML = "Mute"
+    // playStopButton.innerHTML = "Mute"
   }
 }
 

@@ -27,3 +27,13 @@
             - score counting
 
 
+
+# Control
+
+arrow keys or Arduino's stick - movement
+a | spawn ally
+f | spawn enemy/foe
+x | clear canvas
+s | start ink game
+e | ethereal toggle (no color impact) (still has collision)
+c | eraser toggle (remove color)

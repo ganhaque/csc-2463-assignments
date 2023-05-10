@@ -178,16 +178,26 @@ function spawnAlly() {
   });
 }
 
-function startInkGame() {
-  console.log('start ink game');
-  gameData.mode = 'ink-game';
-  // reset the color square
+function clearCanvas() {
   gridArray2 = [];
   for(let i = 0; i <= CANVAS_HEIGHT_SCALING; i++) {
     gridArray2.push(new Array(CANVAS_WIDTH_SCALING).fill(0));
     // console.log("curren array[i][j] = ", gridArray[i]);
   }
   initialize_grid();
+}
+
+function startInkGame() {
+  console.log('start ink game');
+  gameData.mode = 'ink-game';
+  // reset the color square
+  // gridArray2 = [];
+  // for(let i = 0; i <= CANVAS_HEIGHT_SCALING; i++) {
+  //   gridArray2.push(new Array(CANVAS_WIDTH_SCALING).fill(0));
+  //   // console.log("curren array[i][j] = ", gridArray[i]);
+  // }
+  // initialize_grid();
+  clearCanvas();
   // for (let i = 0; i < gridArray2.length; i++) {
   //   for (let j = 0; j < gridArray2[i].length; j++) {
   //     gridArray2[i][j] = 0;

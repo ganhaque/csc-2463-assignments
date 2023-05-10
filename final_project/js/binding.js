@@ -37,23 +37,26 @@ function keyTyped() {
         characterArray[i].etherealToggle();
       }
       break;
-    case 'r':
-      spawnCount -= 1;
-      spawnCounters.forEach(counter => {
-        counter.innerHTML = spawnCount;
-      });
-      break;
-    case 't':
-      spawnCount += 1;
-      spawnCounters.forEach(counter => {
-        counter.innerHTML = spawnCount;
-      });
-      break;
+    // case 'r':
+    //   spawnCount -= 1;
+    //   spawnCounters.forEach(counter => {
+    //     counter.innerHTML = spawnCount;
+    //   });
+    //   break;
+    // case 't':
+    //   spawnCount += 1;
+    //   spawnCounters.forEach(counter => {
+    //     counter.innerHTML = spawnCount;
+    //   });
+    //   break;
     case 'a':
       spawnAlly();
       break;
     case 'f':
       spawnEnemy();
+      break;
+    case 'x':
+      clearCanvas();
       break;
     default:
       console.log("not a shortcut");
