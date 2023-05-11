@@ -75,7 +75,7 @@ f | spawn enemy/foe (cheat)
 ## Arduino
 <!-- I included Arduino code in case you want to try the joystick control -->
 Arduino control with a joystick is possible for this project.
-The difference between the joystick and keyboard control is negligible.
+The difference in difficulty between the joystick and keyboard control is negligible.
 <!-- The Arduino code and wiring is pretty basic. -->
 <!-- There are some minor modifications to make the joystick easier to use when not mounted. -->
 <!-- The x and y value is switched. So the VRX_PIN A0 is actually controlling the y-axis -->
