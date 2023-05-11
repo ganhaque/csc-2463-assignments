@@ -30,10 +30,10 @@ int lastButtonState = 0;    // previous state of the button
 
 const int NEXT_COLOR_PIN = 12;
 
-const int LEFT_PIN = 11;
-const int RIGHT_PIN = 10;
-const int DOWN_PIN = 9;
-const int UP_PIN = 8;
+// const int LEFT_PIN = 11;
+// const int RIGHT_PIN = 10;
+// const int DOWN_PIN = 9;
+// const int UP_PIN = 8;
 
 const int PIN_RED = 5;
 const int PIN_GREEN = 6;
@@ -94,11 +94,11 @@ void loop() {
 
     // check left/right commands
     if (xValue < LEFT_THRESHOLD)
-      // command = "LEFT";
-      command = "RIGHT";
-    else if (xValue > RIGHT_THRESHOLD)
-      // command = "RIGHT";
       command = "LEFT";
+      // command = "RIGHT";
+    else if (xValue > RIGHT_THRESHOLD)
+      command = "RIGHT";
+      // command = "LEFT";
     // check up/down commands (delete else if want two command at once)
     else if (yValue < UP_THRESHOLD)
       command = "UP";
