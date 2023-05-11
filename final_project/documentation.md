@@ -62,7 +62,6 @@ Try to get first place in the leaderboard!
 <!-- and switch the x and y wire. -->
 
 ## Control
-
 | Key | Description |
 |-----|-------------|
 q/w | previous/next color
@@ -74,19 +73,22 @@ a | spawn ally (cheat)
 f | spawn enemy/foe (cheat)
 
 ## Arduino
-I included Arduino code in case you want to try the joystick control
-
-The Arduino code and wiring is pretty basic.
+<!-- I included Arduino code in case you want to try the joystick control -->
+Arduino control with a joystick is possible for this project.
+The difference between the joystick and keyboard control is negligible.
+<!-- The Arduino code and wiring is pretty basic. -->
 <!-- There are some minor modifications to make the joystick easier to use when not mounted. -->
 <!-- The x and y value is switched. So the VRX_PIN A0 is actually controlling the y-axis -->
 
-Here's the code snippet for Arduino wiring.
+Here's the relevant code snippet for Arduino wiring.
 ```c
+// Joystick pin
 #define VRX_PIN  A0 // Arduino pin connected to VRX pin
 #define VRY_PIN  A1 // Arduino pin connected to VRY pin
 // ...
+// Button pin
 const int NEXT_COLOR_PIN = 12;
-// RGB LED PIN
+// RGB LED pin
 const int PIN_RED = 5;
 const int PIN_GREEN = 6;
 const int PIN_BLUE = 3;
@@ -110,19 +112,23 @@ else if (xValue > RIGHT_THRESHOLD)
 <!-- I wasn't able to find a diagram creator for the schematics, but it's pretty basic. -->
 
 ## Thoughts about Future Development
-There are a lot of features that I want to implement,
+This project is the first major game I've made, and I've learned a lot from it.
+There are a lot of features & ideas that I want to implement,
 and a lot more bugs that I want to fix. **But...**
 
-The project's code is based on my previous project's code when I know less about Javascript
-& good programming practices.
-
-Because of that, the code is full of temporary and hacky solutions to the problems I encountered,
+<!-- The project's code is based on my previous project's code when I know less about Javascript -->
+<!-- & good programming practices. -->
+<!-- Because of that, -->
+There are several reworks to the code that are long overdue.
+The code is full of temporary and hacky solutions to the problems I encountered,
 such as the `gridArray` having 1 empty row for collision checking and 1 empty column
 for the color palette (this lead to one of the bug below)
 and several unused features, such as the ability for character to push objects/other characters.
 
-It's really annoying to add more features or fix bugs without some major reworks first
-because the code is not good.
+It's really annoying to add more features or fix bugs without
+some major reworks first because the code is not good.
+So I don't think I will continue patching up this project, but rather
+use what I've learned to make a better game in the future.
 
 ### Features & Fixes List:
 - feat: indicator for eraser mode
