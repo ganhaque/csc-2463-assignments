@@ -70,7 +70,7 @@ s | start ink game
 e | ethereal toggle (no color impact) (still has collision)
 c | eraser toggle (remove color)
 x | clear canvas
-|
+  |  
 a | spawn ally (cheat)
 f | spawn enemy/foe (cheat)
 
@@ -82,7 +82,7 @@ The Arduino code and wiring is pretty basic.
 <!-- The x and y value is switched. So the VRX_PIN A0 is actually controlling the y-axis -->
 
 Here's the code snippet for Arduino wiring.
-```arduino
+```c
 #define VRX_PIN  A0 // Arduino pin connected to VRX pin
 #define VRY_PIN  A1 // Arduino pin connected to VRY pin
 // ...
@@ -96,7 +96,7 @@ const int PIN_BLUE = 3;
 ### Note
 In the video, the schematic & code is modified so that the joystick is easier to hold when unmounted:
 The wires of pin A0 & A1 are switched, and 2 lines of code were replaced.
-```arduino
+```c
 // ...
 // check left/right commands
 if (xValue < LEFT_THRESHOLD)
