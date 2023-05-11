@@ -70,7 +70,6 @@ s | start ink game
 e | ethereal toggle (no color impact) (still has collision)
 c | eraser toggle (remove color)
 x | clear canvas
-  |  
 a | spawn ally (cheat)
 f | spawn enemy/foe (cheat)
 
